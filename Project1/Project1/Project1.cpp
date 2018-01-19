@@ -29,6 +29,7 @@ last edit: 1/7/18
 #include <iostream>
 #include <string>
 #include <fstream>
+#include "std_lib_facilities.h"
 
 using namespace std;
 
@@ -83,7 +84,7 @@ void reg()
 int ex1()
 {
 	ofstream outputFile;
-	outputFile.open("program3data.txt");
+	outputFile.open("accountdata.txt");
 
 	float num1, num2, num3, num4, num5;
 
@@ -104,7 +105,6 @@ int ex1()
 	outputFile << num5 << endl;
 
 	outputFile.close();
-	cout << "Done!\n";
 	return(0);
 }
 
