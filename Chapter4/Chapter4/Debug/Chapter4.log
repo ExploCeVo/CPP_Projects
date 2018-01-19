@@ -1,3 +1,5 @@
 ﻿  Chapter4.cpp
+c:\users\cole chapin\desktop\repository\cpp_projects\chapter4\chapter4\chapter4.cpp(109): warning C4102: 'defaut': unreferenced label
+c:\users\cole chapin\desktop\repository\cpp_projects\chapter4\chapter4\chapter4.cpp(148): warning C4018: '<': signed/unsigned mismatch
   Chapter4.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\Chapter4\Debug\Chapter4.exe
   Chapter4.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\Chapter4\Debug\Chapter4.pdb (Full PDB)
