@@ -20,9 +20,9 @@ a-b		subtract
 out<<b	write b to out		where out is an outstream
 in>>b	read from in to b	where in is an instream
 =============================================================================
-
+=================
 Switch Statements
-
+=================
 A common example of selection is to use a simple charater unit.
 
 Better than nested if loops.
@@ -32,15 +32,23 @@ to a set of constraints.
 Each constraint is presented as part of a case label.
 If the value equals the constant in the case label, the statement is chosen.
 
-Switch technicalities
+- Switch technicalities
 
 Values used must be an int, char or an enumerated type.
 Cannot switch on a string.
 
 Values in case labels must be constant expressions.
+
+=====================
+Function Declarations
+=====================
+Declare with #include.
+int square(int);
+double sqrt(double); // examples of declarations of functions
+
 */
 #include "stdafx.h"
-#include <iostream>
+#include "std_lib_facilities.h"
 
 using namespace std;
 
@@ -106,10 +114,48 @@ int ex4_3()
 	return(0);
 }
 
+// example 4, takes a list of tempuratures from user and outputs average and mean
+int vec_ex1()
+{
+	vector<double> temps;
+	for (double temp; cin >> temp;)
+		temps.push_back(temp);
+
+	// compute mean temp
+	double sum = 0;
+	for (double x : temps) 
+		sum += x;
+	cout << "Average Tempurature: " << sum / temps.size() << '\n';
+
+	// compute median temp
+	sort(temps);
+	cout << "Median Tempurature: " << temps[temps.size() / 2] << '\n';
+	
+	system("pause");
+	return(0);
+}
+
+// vector example 2, simple dictionary example
+// use ctrl+z to stop intaking input
+int vec_ex2()
+{
+	vector<string> words;
+
+	for (string temp; cin >> temp; )
+		words.push_back(temp);
+	cout << "Number of words: " << words.size() << '\n';
+	sort(words);
+
+	for (int i = 0; i < words.size(); ++i)
+		if (i == 0 || words[i - 1] != words[i]) // is this a new word?
+			cout << words[i] << '\n';
+	system("pause");
+	return(0);
+}
+
 // function that runs everthing
 int main(int argc, _TCHAR* argv[])
 {
-	ex4_3();
+	vec_ex2();
 	return 0;
 }
-
