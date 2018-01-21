@@ -11,7 +11,14 @@ Profile:
 	Phone
 	Current balance
 ===============================================================================================
+ * TODO
+ Create the start function, to begin it should:
+ a) Prompt user to login, register or exit. DONE
+ b) If login or register is selected, send a message confirming its entered the proper function. DONE
+ c) If exit is selected, send a message saying entered exit function and then console closes. 
+ d) Throw an error if either of these is not selected. DONE
 
+ Once these work, edit it so that it stores information in a simple text file.
 ===============================================================================================
 Functions
 	start():
@@ -21,63 +28,83 @@ Functions
 	reg():
 		If user selects Register, proceeds to register screen
 ===============================================================================================
-last edit: 1/7/18
+last edit: 1/20/18
 ===============================================================================================
 */
 
+// includes
 #include "stdafx.h"
 #include <iostream>
 #include <string>
 #include <fstream>
 #include "std_lib_facilities.h"
 
-using namespace std;
+// function definitions
+int start();
+void login();
+void reg();
+void exit();
+
+// main function
+int main(int argv, char argc[])
+{
+	start();
+}
 
 // starts the program
 int start()
 {
-	cout << "Please enter either Login or Register followed by Enter. \n";
-	string ans;
+	cout << "Welcome to my shitty application. Respond appropriately or else.\n";
+	cout << "1) Login\n";
+	cout << "2) Register\n";
+	cout << "3) Quit\n";
+
+	char ans;
 	cin >> ans;
 
-	if (ans == "Login") {
-		cout << "Please enter username and password.\n";
-		string user;
-		string pass;
-		cout << "Username: ";
-		cin >> user;
-		cout << "\nPassword: ";
-		cin >> pass;
-		cout << "Checking Authentication...\n";
+	switch (ans) {
+	case '1':
+		login();
+		break;
+	case '2':
+		reg();
+		break;
+	case '3':
+		exit();
+		break;
+	default:
+		// not sure if this is the proper way this should be handled, but throws 
+		// an exception is thrown
+		try {
+			throw 20;
+		}
+		catch (int e) {
+			cout << "Go see a doctor about getting a helmet. Exception number: " << e << '\n';
+		}
+		break;
 	}
-
-	if (ans == "Register") {
-		cout << "Please Enter Designated username and password.\n";
-		cout << "Username :\n";
-		string user;
-		string pass1, pass2;
-
-		cin >> user;
-		cout << "Password: \n";
-		cin >> pass1;
-		cout << "Re-Enter Password: \n";
-		cin >> pass2;
-	}
-	
-	system("pause");
 	return(0);
 }
 
-//login function
+// login function
 void login()
 {
-	//todo
+	cout << "Welcome to the login function\n";
+	keep_window_open();
 }
 
-//register function
+// register function
 void reg()
 {
-	//todo
+	cout << "Welcome to the register function\n";
+	keep_window_open();
+}
+
+// exit function
+void exit()
+{
+	cout << "Welcome to the exit function\n";
+	keep_window_open();
 }
 
 // file open and save example, will be used for saving data later on
@@ -107,10 +134,3 @@ int ex1()
 	outputFile.close();
 	return(0);
 }
-
-int main(int argv, char argc[])
-{
-	ex1();
-}
-
-
