@@ -106,7 +106,7 @@ int ex4_3()
 	case 'c':
 		cout << length << " cm == " << cmperinch*length << "in\n";
 		break;
-	defaut:
+	default:
 		cout << "Sorry, idk wtf u just said yo " << unit << '\n';
 		break;
 	}
