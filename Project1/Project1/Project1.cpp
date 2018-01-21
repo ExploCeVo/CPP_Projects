@@ -11,14 +11,21 @@ Profile:
 	Phone
 	Current balance
 ===============================================================================================
- * TODO
- Create the start function, to begin it should:
- a) Prompt user to login, register or exit. DONE
- b) If login or register is selected, send a message confirming its entered the proper function. DONE
- c) If exit is selected, send a message saying entered exit function and then console closes. 
- d) Throw an error if either of these is not selected. DONE
+ *TODO*
+ Begin implementing the login function, it should:
+ a) Prompt user to enter username and password.
+ b) If correct, basic result that says it worked. 
+ c) If not, say attempt failed.
 
- Once these work, edit it so that it stores information in a simple text file.
+ Implement reg() function, it should:
+ a) Prompt user to enter a username and re-enter, and then confirm they are the same. *DONE*
+ b) Prompt user to enter a password and re-enter, and confirm they are the same. *DONE*
+ c) Present messages saying if either failed. *DONE*
+ d) If successful, create a file that will be able to hold data for the account. *DONE*
+ e) If failed, prompted to retry or close the app. *BUGGED*
+===============================================================================================
+ *BUGS*
+ Currently, if prompted to retry and response is no, data is still saved
 ===============================================================================================
 Functions
 	start():
@@ -28,7 +35,7 @@ Functions
 	reg():
 		If user selects Register, proceeds to register screen
 ===============================================================================================
-last edit: 1/20/18
+last edit: 1/21/18
 ===============================================================================================
 */
 
@@ -80,6 +87,7 @@ int start()
 		}
 		catch (int e) {
 			cout << "Go see a doctor about getting a helmet. Exception number: " << e << '\n';
+			keep_window_open();
 		}
 		break;
 	}
@@ -89,22 +97,64 @@ int start()
 // login function
 void login()
 {
-	cout << "Welcome to the login function\n";
-	keep_window_open();
+	string name;
+	string pass;
+
+	cout << "Login\n";
+	cout << "Username: ";
+	cin >> name;
+	cout << "\nPassword: ";
+	cin >> pass;
 }
 
 // register function
 void reg()
 {
-	cout << "Welcome to the register function\n";
+	ofstream outputFile;
+	string user1, user2;
+	string pass1, pass2;
+	char ans;
+	bool success = false;
+	bool retry = true;
+
+	while (!success) {
+		outputFile.open("accountdata.txt");
+		cout << "Registration:\n";
+		cout << "Please enter a desired username: ";
+		cin >> user1;
+		cout << "\nRe-enter username: ";
+		cin >> user2;
+		cout << "\nPlease enter a password: ";
+		cin >> pass1;
+		cout << "\nRe-enter password: ";
+		cin >> pass2;
+
+		if (user1 != user2 || pass1 != pass2) {
+			cout << "\nUsername's do not match.\n";
+			cout << "Press n to exit app or y to \n";
+			cin >> ans;
+			if (ans == 'n') retry = false;
+		}
+
+		if (retry) break;
+
+		else success = true;
+	}
+
+	if (success) {
+		outputFile << user1 << endl;
+		outputFile << pass1 << endl;
+		outputFile.close();
+	}
+
+	cout << "Account Created Successfully!\n";
 	keep_window_open();
 }
 
 // exit function
 void exit()
 {
-	cout << "Welcome to the exit function\n";
-	keep_window_open();
+	exit(0);		// closes the console
 }
 
 // file open and save example, will be used for saving data later on
