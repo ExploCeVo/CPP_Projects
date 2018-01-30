@@ -50,15 +50,28 @@ private:
 	Token buffer;
 };
 
-// function declarations
+// constant definitions
+const char number = '8';
+const char quit = 'q';
+const char print = ';';
+const string prompt = "> ";
+const string result = "= ";
+
+// input stream to hold tokens
+Token_stream ts;
+
+// puts token in buffer and marks it full
 void Token_stream::putback(Token t)
 {
 	buffer = t;
 	full = true;
 }
+
+// read characters from cin and compose a token
 Token Token_stream::get()
 {
-	if (full) {
+
+	if (full) {	// check if we have already have a token ready
 		full = false;
 		return buffer;
 	}
@@ -69,8 +82,14 @@ Token Token_stream::get()
 	switch (ch) {
 	case ';':	// for "print"
 	case 'q':	// for "quit"
-	case '(': case ')': case '+': case '-': case '*': case '/':
-		return Token{ ch };
+	case '(': 
+	case ')': 
+	case '+': 
+	case '-': 
+	case '*': 
+	case '/': 
+	case '%':
+		return Token{ ch };	// let each character represent itself
 	case '.':
 	case '0': case '1': case '2': case '3': case '4':
 	case '5': case '6': case '7': case '8': case '9':
@@ -78,36 +97,23 @@ Token Token_stream::get()
 		cin.putback(ch);
 		double val;
 		cin >> val;
-		return Token{ '8', val };
+		return Token{ number, val };
 	}
 	default:
 		error("Bad Token");
 	}
 }
+
 double expression();
 double term();
 double primary();
-
-// input stream to hold tokens
-Token_stream ts;
+void calculate();
 
 // main function to run everything
 int main()
 {
 	try {
-		double val = 0;
-		while (cin) {
-			cout << "> ";
-			Token t = ts.get();
-			while (t.kind == ';') t = ts.get();
-
-			if (t.kind == 'q') {
-				keep_window_open();
-				return 0;
-			}
-			ts.putback(t);
-			cout << "= " << expression() << '\n';
-		}
+		calculate();
 		keep_window_open();
 		return 0;
 	}
@@ -146,7 +152,7 @@ double expression()
 	}
 }
 
-// deal with numbers and parenthesis
+// deal with numbers, parenthesis, and negative numbers
 // calls expression() and get_token()
 double primary()
 {
@@ -159,8 +165,12 @@ double primary()
 		if (t.kind != ')') error("')' expected \n");
 		return d;
 	}
-	case '8':
+	case number:
 		return t.value;
+	case '-':
+		return -primary();
+	case '+':
+		return primary();
 	default:
 		error("Primary expected\n");
 	}
@@ -181,8 +191,16 @@ double term()
 		case '/':
 		{
 			double d = primary();
-			if (d == 0) error("don't divide by 0\n");
+			if (d == 0) error("cannot divide by 0.\n");
 			left /= d;
+			t = ts.get();
+			break;
+		}
+		case '%':
+		{
+			double d = primary();
+			if (d == 0) error("%:Cannot divide by 0.\n");
+			left = fmod(left, d);
 			t = ts.get();
 			break;
 		}
@@ -190,5 +208,22 @@ double term()
 			ts.putback(t);
 			return left;
 		}
+	}
+}
+
+// performs calculations for the program
+void calculate()
+{
+	while (cin) {
+		cout << prompt;
+		Token t = ts.get();
+		while (t.kind == print) t = ts.get();
+
+		if (t.kind == quit) {
+			keep_window_open();
+			return;
+		}
+		ts.putback(t);
+		cout << result << expression() << '\n';
 	}
 }
