@@ -25,7 +25,7 @@ Profile:
  e) If failed, prompted to retry or close the app. *BUGGED*
 ===============================================================================================
  *BUGS*
- Currently, if prompted to retry and response is no, data is still saved
+	Infinite loop with reg(), probably line 145.
 ===============================================================================================
 Functions
 	start():
@@ -35,7 +35,7 @@ Functions
 	reg():
 		If user selects Register, proceeds to register screen
 ===============================================================================================
-last edit: 1/21/18
+last edit: 1/29/18
 ===============================================================================================
 */
 
@@ -49,8 +49,7 @@ last edit: 1/21/18
 // function definitions
 int start();
 void login();
-void reg();
-void exit();
+int reg();
 
 // main function
 int main(int argv, char argc[])
@@ -77,19 +76,17 @@ int start()
 		reg();
 		break;
 	case '3':
-		exit();
+		exit(3);
 		break;
 	default:
 		// not sure if this is the proper way this should be handled, but throws 
 		// an exception is thrown
 		try {
-			throw 20;
+			error("Invalid request.\n");
 		}
-		catch (int e) {
-			cout << "Go see a doctor about getting a helmet. Exception number: " << e << '\n';
-			keep_window_open();
-		}
-		break;
+		catch (exception& e) {
+			keep_window_open("q");
+	}
 	}
 	return(0);
 }
@@ -108,7 +105,7 @@ void login()
 }
 
 // register function
-void reg()
+int reg()
 {
 	ofstream outputFile;
 	string user1, user2;
@@ -117,44 +114,45 @@ void reg()
 	bool success = false;
 	bool retry = true;
 
-	while (!success) {
-		outputFile.open("accountdata.txt");
-		cout << "Registration:\n";
-		cout << "Please enter a desired username: ";
+	while (retry) {
+		cout << "Welcome to Registration\n";
+		cout << "Enter a desired username: ";
 		cin >> user1;
 		cout << "\nRe-enter username: ";
 		cin >> user2;
-		cout << "\nPlease enter a password: ";
+		cout << "\nEnter a desired password: ";
 		cin >> pass1;
 		cout << "\nRe-enter password: ";
 		cin >> pass2;
 
-		if (user1 != user2 || pass1 != pass2) {
-			cout << "\nUsername's do not match.\n";
-			cout << "Press n to exit app or y to \n";
+		if (user1 != user2) {
+			cout << "\n Usernames did not match.\n";
+			cout << "Retry or press q to quit.\n";
 			cin >> ans;
-			if (ans == 'n') retry = false;
+			if (ans == 'q') {
+				exit(1);
+			}
 		}
 
-		if (retry) break;
-
-		else success = true;
+		if (pass1 != pass2) {
+			cout << "\n Passwords did not match.\n";
+			cout << "Retry or press q to quit.\n";
+			cin >> ans;
+			if (ans == 'q') {
+				exit(2);
+			}
+		}
+		if (ans == 'r') continue;
+		else break;
 	}
 
-	if (success) {
-		outputFile << user1 << endl;
-		outputFile << pass1 << endl;
-		outputFile.close();
-	}
-
-	cout << "Account Created Successfully!\n";
+	outputFile.open("accountdata.txt");
+	outputFile << user1 << endl;
+	outputFile << pass1 << endl;
+	outputFile.close();
+	cout << "Congratulations, you are officially registered!\n";
 	keep_window_open();
-}
-
-// exit function
-void exit()
-{
-	exit(0);		// closes the console
+	return 0;
 }
 
 // file open and save example, will be used for saving data later on
