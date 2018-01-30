@@ -1,4 +1,5 @@
 ﻿  Chapter6.cpp
-c:\users\cole chapin\desktop\repository\cpp_projects\chapter6\chapter6\chapter6.cpp(57): warning C4715: 'calc_ex1': not all control paths return a value
+c:\users\cole chapin\desktop\repository\cpp_projects\chapter6\chapter6\chapter6.cpp(86): warning C4715: 'Token_stream::get': not all control paths return a value
+c:\users\cole chapin\desktop\repository\cpp_projects\chapter6\chapter6\chapter6.cpp(167): warning C4715: 'primary': not all control paths return a value
   Chapter6.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\Chapter6\Debug\Chapter6.exe
   Chapter6.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\Chapter6\Debug\Chapter6.pdb (Full PDB)
