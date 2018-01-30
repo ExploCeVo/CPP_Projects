@@ -16,16 +16,8 @@ Profile:
  a) Prompt user to enter username and password.
  b) If correct, basic result that says it worked. 
  c) If not, say attempt failed.
-
- Implement reg() function, it should:
- a) Prompt user to enter a username and re-enter, and then confirm they are the same. *DONE*
- b) Prompt user to enter a password and re-enter, and confirm they are the same. *DONE*
- c) Present messages saying if either failed. *DONE*
- d) If successful, create a file that will be able to hold data for the account. *DONE*
- e) If failed, prompted to retry or close the app. *BUGGED*
 ===============================================================================================
  *BUGS*
-	Infinite loop with reg(), probably line 145.
 ===============================================================================================
 Functions
 	start():
@@ -35,7 +27,7 @@ Functions
 	reg():
 		If user selects Register, proceeds to register screen
 ===============================================================================================
-last edit: 1/29/18
+last edit: 1/30/18
 ===============================================================================================
 */
 
@@ -86,7 +78,7 @@ int start()
 		}
 		catch (exception& e) {
 			keep_window_open("q");
-	}
+		}
 	}
 	return(0);
 }
@@ -125,6 +117,10 @@ int reg()
 		cout << "\nRe-enter password: ";
 		cin >> pass2;
 
+		if (user1 == user2 && pass1 == pass2) {
+			success = true;
+			break;
+		}
 		if (user1 != user2) {
 			cout << "\n Usernames did not match.\n";
 			cout << "Retry or press q to quit.\n";
@@ -143,6 +139,7 @@ int reg()
 			}
 		}
 		if (ans == 'r') continue;
+
 		else break;
 	}
 
@@ -153,32 +150,4 @@ int reg()
 	cout << "Congratulations, you are officially registered!\n";
 	keep_window_open();
 	return 0;
-}
-
-// file open and save example, will be used for saving data later on
-int ex1()
-{
-	ofstream outputFile;
-	outputFile.open("accountdata.txt");
-
-	float num1, num2, num3, num4, num5;
-
-	cout << "Enter the first number: ";
-	cin >> num1;
-	outputFile << num1 << endl;
-	cout << "Enter the second number: ";
-	cin >> num2;
-	outputFile << num2 << endl;
-	cout << "Enter the third number: ";
-	cin >> num3;
-	outputFile << num3 << endl;
-	cout << "Enter the fourth number: ";
-	cin >> num4;
-	outputFile << num4 << endl;
-	cout << "Enter the fifth number: ";
-	cin >> num5;
-	outputFile << num5 << endl;
-
-	outputFile.close();
-	return(0);
 }
