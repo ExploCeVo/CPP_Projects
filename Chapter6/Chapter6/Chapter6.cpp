@@ -1,12 +1,12 @@
 /*
-Chapter 6 notes and exercises from Programming Practices and Principles.
-=========================================================================
+Chapter 6-7 notes and exercises from Programming Practices and Principles.
+==========================================================================
 CREATING A PROGRAM
-=========================================================================
+==========================================================================
 
-=========================================================================
-EXAMPLE OF A GRAMMAR EXPRESSION
-=========================================================================
+==========================================================================
+EXAMPLE OF A GRAMMAR EXPRESSION (UNCODED VERSION)
+==========================================================================
 Expression:
 	Term
 	Expression "+" Term		// addition
@@ -24,7 +24,10 @@ Primary:
 
 Number:
 	floating-point-literal
-=========================================================================
+==========================================================================
+==========================================================================
+COMPLETEING A PROGRAM
+==========================================================================
 */
 
 #include "stdafx.h"
@@ -47,14 +50,12 @@ private:
 	Token buffer;
 };
 
-// implementing helper functions from class Token_stream
+// function declarations
 void Token_stream::putback(Token t)
 {
 	buffer = t;
 	full = true;
 }
-
-// Token_stream get() helper function
 Token Token_stream::get()
 {
 	if (full) {
@@ -83,29 +84,42 @@ Token Token_stream::get()
 		error("Bad Token");
 	}
 }
-
-Token_stream ts;
 double expression();
 double term();
 double primary();
 
-// deal with numbers and parenthesis
-// calls expression() and get_token()
-double primary()
+// input stream to hold tokens
+Token_stream ts;
+
+// main function to run everything
+int main()
 {
-	Token t = ts.get();
-	switch (t.kind) {
-	case '(':
-	{
-		double d = expression();
-		t = ts.get();
-		if (t.kind != ')') error("')' expected \n");
-		return d;
+	try {
+		double val = 0;
+		while (cin) {
+			cout << "> ";
+			Token t = ts.get();
+			while (t.kind == ';') t = ts.get();
+
+			if (t.kind == 'q') {
+				keep_window_open();
+				return 0;
+			}
+			ts.putback(t);
+			cout << "= " << expression() << '\n';
+		}
+		keep_window_open();
+		return 0;
 	}
-	case '8':
-		return t.value;
-	default:
-		error("Primary expected\n");
+	catch (runtime_error& e) {
+		cerr << e.what() << '\n';
+		keep_window_open("~");
+		return 1;
+	}
+	catch (...) {
+		cerr << "Exception\n";
+		keep_window_open("~");
+		return 2;
 	}
 }
 
@@ -129,6 +143,26 @@ double expression()
 			ts.putback(t);		// put t back into tokenstream
 			return left;		// finally, no more + or -, return answer
 		}
+	}
+}
+
+// deal with numbers and parenthesis
+// calls expression() and get_token()
+double primary()
+{
+	Token t = ts.get();
+	switch (t.kind) {
+	case '(':
+	{
+		double d = expression();
+		t = ts.get();
+		if (t.kind != ')') error("')' expected \n");
+		return d;
+	}
+	case '8':
+		return t.value;
+	default:
+		error("Primary expected\n");
 	}
 }
 
@@ -157,33 +191,4 @@ double term()
 			return left;
 		}
 	}
-}
-
-// main function to run everything
-int main()
-{
-	try {
-		double val = 0;
-		while (cin) {
-			Token t = ts.get();
-
-			if (t.kind == 'q') break;
-			if (t.kind == ';')
-				cout << "=" << val << '\n';
-			else
-				ts.putback(t);
-			val = expression();
-		}
-		keep_window_open();
-		}
-		catch (exception& e) {
-			cerr << e.what() << '\n';
-			keep_window_open();
-			return 1;
-		}
-		catch (...) {
-			cerr << "Exception\n";
-			keep_window_open();
-			return 2;
-		}
 }
