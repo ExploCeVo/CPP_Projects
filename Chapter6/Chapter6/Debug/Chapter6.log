@@ -1,2 +1,10 @@
+<<<<<<< HEAD
 ﻿  Chapter6.vcxproj -> C:\Users\Cole Chapin\Desktop\Repo\CPP_Projects\Chapter6\Debug\Chapter6.exe
   Chapter6.vcxproj -> C:\Users\Cole Chapin\Desktop\Repo\CPP_Projects\Chapter6\Debug\Chapter6.pdb (Full PDB)
+=======
+﻿  Chapter6.cpp
+c:\users\cole chapin\desktop\repository\cpp_projects\chapter6\chapter6\chapter6.cpp(105): warning C4715: 'Token_stream::get': not all control paths return a value
+c:\users\cole chapin\desktop\repository\cpp_projects\chapter6\chapter6\chapter6.cpp(177): warning C4715: 'primary': not all control paths return a value
+  Chapter6.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\Chapter6\Debug\Chapter6.exe
+  Chapter6.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\Chapter6\Debug\Chapter6.pdb (Full PDB)
+>>>>>>> refs/remotes/origin/master
