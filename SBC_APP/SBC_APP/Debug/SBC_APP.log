@@ -1,0 +1,8 @@
+﻿  SBC_APP.cpp
+c:\users\cole chapin\desktop\repository\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(61): error C3861: 'isInt': identifier not found
+c:\users\cole chapin\desktop\repository\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(65): error C2664: 'std::basic_istream<char,std::char_traits<char>> &std::basic_istream<char,std::char_traits<char>>::putback(_Elem)': cannot convert argument 1 from 'std::string' to 'char'
+          with
+          [
+              _Elem=char
+          ]
+  c:\users\cole chapin\desktop\repository\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(65): note: No user-defined-conversion operator available that can perform this conversion, or the operator cannot be called
