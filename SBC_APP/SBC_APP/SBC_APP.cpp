@@ -56,7 +56,7 @@ Token Token_stream::get()
 	}
 
 	while (!isDone) {
-		string input;
+		char input;
 		cin >> input;
 		bool isPrice = isInt(input);
 		
@@ -108,4 +108,9 @@ int test1() {
 		std::cout << "You entered a word: " << str << '\n';
 	}
 	return 0;
+}
+
+// more test code to play with
+bool isParam(const string & line) {
+	return isdigit(atoi(line.c_str()));
 }
