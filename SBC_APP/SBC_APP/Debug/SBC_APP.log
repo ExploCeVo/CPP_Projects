@@ -1,4 +1,3 @@
 ﻿  SBC_APP.cpp
-c:\users\cole chapin\desktop\repo\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(125): warning C4800: 'int': forcing value to bool 'true' or 'false' (performance warning)
-  SBC_APP.vcxproj -> C:\Users\Cole Chapin\Desktop\Repo\CPP_Projects\SBC_APP\Debug\SBC_APP.exe
-  SBC_APP.vcxproj -> C:\Users\Cole Chapin\Desktop\Repo\CPP_Projects\SBC_APP\Debug\SBC_APP.pdb (Full PDB)
+  SBC_APP.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\SBC_APP\Debug\SBC_APP.exe
+  SBC_APP.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\SBC_APP\Debug\SBC_APP.pdb (Full PDB)
