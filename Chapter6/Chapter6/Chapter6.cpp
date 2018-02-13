@@ -41,6 +41,7 @@ public:
 	char kind;
 	double value;
 };
+
 class Token_stream {
 public:
 	Token get();
