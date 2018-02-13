@@ -32,7 +32,7 @@ This application is intended to do the following:
 
 
 // constant definitions and variables
-
+const string FileName = "playerdata.txt";
 int prompt();
 void test();
 bool isFloat(string myString);
@@ -43,6 +43,7 @@ void lookupList();
 void main()
 {
 	test();
+	return;
 } 
 
 // function to test if entered string could be converted to a float
@@ -54,11 +55,15 @@ bool isFloat(string myString) {
 	return iss.eof() && !iss.fail();
 }
 
-// Runs prompt() and createList()
+// calls prompt(), createList(), and lookupList()
 void test()
 {
 	int ans = prompt();
-	keep_window_open();
+	if (ans == 1) createList();
+	if (ans == 2) lookupList();
+	if (ans == 3) return;
+	if (ans == 4)
+		error("Invalid Entry.\n");
 }
 
 // Initial prompt for app
@@ -94,34 +99,49 @@ void createList()
 
 	ofstream playerList;
 	string input;
-	playerList.open("playerdata.txt");
-	while (cin) {
-		cin >> input;
-		if (input == "done" || input == "Done" ||
-			input == "done." || input == "Done.") {
-			playerList.close();
-			cout << "List created.\n";
-			break;
-		}
+	playerList.open(FileName);
+	if (playerList.is_open()) {
+		while (cin) {
+			cin >> input;
+			if (input == "done" || input == "Done" ||
+				input == "done." || input == "Done.") {
+				playerList.close();
+				cout << "List created.\n";
+				break;
+			}
 
-		if (!isFloat(input)) {
-			cout << "Player Name: " << input << '\n';
-			playerList << "Player" << endl;
-			playerList << input << endl;
-			continue;
-		} 
+			if (!isFloat(input)) {
+				cout << "Player Name: " << input << '\n';
+				playerList << "Player" << endl;
+				playerList << input << endl;
+				continue;
+			}
 
-		if (isFloat(input)) {
-			cout << "Player Cost: " << input << '\n';
-			playerList << "Price" << endl;
-			playerList << input << endl;
-			continue;
+			if (isFloat(input)) {
+				cout << "Player Cost: " << input << '\n';
+				playerList << "Price" << endl;
+				playerList << input << endl;
+				continue;
+			}
 		}
 	}
+	else cout << "Unable to open file.\n";
+	return;
 }
 
 // lookups current file containing a list of players and their prices
 void lookupList()
 {
+	ifstream list;
+	string line;
+	list.open(FileName);
+	if (list.is_open()) {
+		while (getline(list, line)) {
+			cout << line << endl;
+		}
+		list.close();
+	}
+	else error("Unable to open file");
+	keep_window_open();
 	return;
 }
