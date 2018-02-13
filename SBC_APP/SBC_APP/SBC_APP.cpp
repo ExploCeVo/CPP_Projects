@@ -12,7 +12,17 @@ This application is intended to do the following:
 
  il finish this bullshit later..
  ==========================================================================================
- last edit: 2/12/18
+ CURRENT IMPLEMENTATIONS:
+	prompt(); asks for a user prompt, and returns the proper int value according to answer.
+	test(); function that runs everything currently being tested.
+	isFloat(string myString); function checks if user input is a float.
+	createList(); function that creates a list of players and prices, storing them in a
+	text file.
+	lookupList(); TODO
+
+	Very little error checking created thus far, focused more on raw results.
+
+ last edit: 2/13/18
  author: Cole Chapin
  ==========================================================================================
 */
@@ -20,121 +30,118 @@ This application is intended to do the following:
 #include "stdafx.h"
 #include "std_lib_facilities.h"
 
-// class definitions
-class Token
-{
-public:
-	char player;
-	int value;
-};
-class Token_stream {
-public:
-	Token get();
-	void putback(Token t);
-private:
-	bool full{ false };
-	Token buffer;
-};
 
- // constant definitions and variables
-bool isDone = false;
-// input stream to hold tokens
-Token_stream ts;
-
-// puts token in buffer and marks it full
-void Token_stream::putback(Token t)
-{
-	buffer = t;
-	full = true;
-}
-
-/* Token Token_stream::get()
-{
-	if (full) {
-		full = false;
-		return buffer;
-	}
-
-	while (!isDone) {
-		char input;
-		cin >> input;
-		bool isPrice = isInt(input);
-		
-		if (!isPrice)
-		{
-			cin.putback(input);
-		}
-	}
-
-}*/
-
-inline bool isInt(const std::string& s);
-int test1();
-bool isParam(const string& s);
+// constant definitions and variables
+const string FileName = "playerdata.txt";
+int prompt();
+void test();
+bool isFloat(string myString);
+void createList();
+void lookupList();
 
 // main hehe
 void main()
 {
-	cout << "Welcome to the SBC version. 0.0.1.\n";
-	cout << "Please enter a name or value.\n";
-	string line;
-	cin >> line;
-	bool isNum;
-
-	isNum = isParam(line);
-	cout << isNum << '\n';
-	keep_window_open();
+	test();
 	return;
 } 
 
-// no idea what this does but haha
-inline bool isInt(const std::string & s)
+// function to test if entered string could be converted to a float
+bool isFloat(string myString) {
+	std::istringstream iss(myString);
+	float f;
+	iss >> noskipws >> f; // noskipws considers leading whitespace invalid
+						  // Check the entire string was consumed and if either failbit or badbit is set
+	return iss.eof() && !iss.fail();
+}
+
+// calls prompt(), createList(), and lookupList()
+void test()
 {
-	if (s.empty() || ((!isdigit(s[0])) && (s[0] != '-') && (s[0] != '+'))) return false;
-
-	char * p;
-	strtol(s.c_str(), &p, 10);
-
-	return (*p == 0);
+	int ans = prompt();
+	if (ans == 1) createList();
+	if (ans == 2) lookupList();
+	if (ans == 3) return;
+	if (ans == 4)
+		error("Invalid Entry.\n");
 }
 
-// test code to fuck with
-int test1() {
-	std::cout << "Please, enter a number or a word: ";
-	char c = std::cin.get();
-
-	if ((c >= '0') && (c <= '9'))
-	{
-		int n;
-		std::cin.putback(c);
-		std::cin >> n;
-		std::cout << "You entered a number: " << n << '\n';
-	}
-	else
-	{
-		std::string str;
-		std::cin.putback(c);
-		getline(std::cin, str);
-		std::cout << "You entered a word: " << str << '\n';
-	}
-	return 0;
-}
-
-// more test code to play with
-bool isParam(const string & line) {
-	return isdigit(atoi(line.c_str()));
-}
-
-bool wasConv(const char& s)
+// Initial prompt for app
+int prompt()
 {
-	double d = FLT_MAX;
-	d = strtod(s&, NULL);
-	
-	if ((d > 0 && (d > FLT_MAX || d < FLT_MIN))
-		|| (d < 0 && (d < -FLT_MAX || d > -FLT_MIN)))
-		printf("Invalid float: %g\n", d);
-	else
-		printf("Valid: %g\n", d);
+	cout << "Welcome to the SBC version. 0.0.2.\n";
+	cout << "Press 1 to create a list, or 2 to view a current list.\n";
+	cout << "Press 3 to quit.\n";
+	char ans;
+	cin >> ans;
+	switch (ans) {
+	case '1':
+		return 1;
+		break;
+	case '2':
+		return 2;
+		break;
+	case '3':
+		return 3;
+		break;
+	default:
+		cout << "Invalid entry, dickhead. Closing...\n";
+		return 4;
+		break;
+	}
+}
 
-	return EXIT_SUCCESS;
+// creates a text file containing a list of the player names and prices
+void createList()
+{
+	cout << "Please enter a player name followed by cost.\n";
+	cout << "Enter 'done' when you've finished filling the list.\n";
+
+	ofstream playerList;
+	string input;
+	playerList.open(FileName);
+	if (playerList.is_open()) {
+		while (cin) {
+			cin >> input;
+			if (input == "done" || input == "Done" ||
+				input == "done." || input == "Done.") {
+				playerList.close();
+				cout << "List created.\n";
+				break;
+			}
+
+			if (!isFloat(input)) {
+				cout << "Player Name: " << input << '\n';
+				playerList << "Player" << endl;
+				playerList << input << endl;
+				continue;
+			}
+
+			if (isFloat(input)) {
+				cout << "Player Cost: " << input << '\n';
+				playerList << "Price" << endl;
+				playerList << input << endl;
+				continue;
+			}
+		}
+	}
+	else cout << "Unable to open file.\n";
+	return;
+}
+
+// lookups current file containing a list of players and their prices
+void lookupList()
+{
+	ifstream list;
+	string line;
+	list.open(FileName);
+	if (list.is_open()) {
+		while (getline(list, line)) {
+			cout << line << endl;
+		}
+		list.close();
+	}
+	else error("Unable to open file");
+	keep_window_open();
+	return;
 }
