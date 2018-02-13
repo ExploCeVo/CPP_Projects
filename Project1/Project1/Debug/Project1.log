@@ -1,4 +1,6 @@
-﻿  Project1.cpp
-c:\users\cole chapin\desktop\repository\cpp_projects\project1\project1\project1.cpp(87): warning C4101: 'e': unreferenced local variable
-  Project1.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\Project1\Debug\Project1.exe
-  Project1.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\Project1\Debug\Project1.pdb (Full PDB)
+﻿  stdafx.cpp
+  Project1.cpp
+c:\users\cole chapin\desktop\repo\cpp_projects\project1\project1\project1.cpp(87): warning C4101: 'e': unreferenced local variable
+  LINK : C:\Users\Cole Chapin\Desktop\Repo\CPP_Projects\Project1\Debug\Project1.exe not found or not built by the last incremental link; performing full link
+  Project1.vcxproj -> C:\Users\Cole Chapin\Desktop\Repo\CPP_Projects\Project1\Debug\Project1.exe
+  Project1.vcxproj -> C:\Users\Cole Chapin\Desktop\Repo\CPP_Projects\Project1\Debug\Project1.pdb (Full PDB)

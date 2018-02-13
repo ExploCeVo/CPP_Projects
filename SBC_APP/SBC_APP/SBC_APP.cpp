@@ -12,7 +12,7 @@ This application is intended to do the following:
 
  il finish this bullshit later..
  ==========================================================================================
- last edit: 2/10/18
+ last edit: 2/12/18
  author: Cole Chapin
  ==========================================================================================
 */
@@ -48,7 +48,7 @@ void Token_stream::putback(Token t)
 	full = true;
 }
 
-Token Token_stream::get()
+/* Token Token_stream::get()
 {
 	if (full) {
 		full = false;
@@ -66,15 +66,25 @@ Token Token_stream::get()
 		}
 	}
 
-}
+}*/
 
 inline bool isInt(const std::string& s);
 int test1();
+bool isParam(const string& s);
 
 // main hehe
-int main()
+void main()
 {
-	test1();
+	cout << "Welcome to the SBC version. 0.0.1.\n";
+	cout << "Please enter a name or value.\n";
+	string line;
+	cin >> line;
+	bool isNum;
+
+	isNum = isParam(line);
+	cout << isNum << '\n';
+	keep_window_open();
+	return;
 } 
 
 // no idea what this does but haha
@@ -113,4 +123,18 @@ int test1() {
 // more test code to play with
 bool isParam(const string & line) {
 	return isdigit(atoi(line.c_str()));
+}
+
+bool wasConv(const char& s)
+{
+	double d = FLT_MAX;
+	d = strtod(s&, NULL);
+	
+	if ((d > 0 && (d > FLT_MAX || d < FLT_MIN))
+		|| (d < 0 && (d < -FLT_MAX || d > -FLT_MIN)))
+		printf("Invalid float: %g\n", d);
+	else
+		printf("Valid: %g\n", d);
+
+	return EXIT_SUCCESS;
 }
