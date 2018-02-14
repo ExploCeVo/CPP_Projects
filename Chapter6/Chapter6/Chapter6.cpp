@@ -34,12 +34,32 @@ COMPLETEING A PROGRAM
 #include "std_lib_facilities.h"
 
 
+// constant definitions
+const char number = '8';
+const char quit = 'q';
+const char print = ';';
+const string prompt = "> ";
+const string result = "= ";
+
+// classes created for use in this program
+class Variable {
+public:
+	string name;
+	double value;
+};
+
 // class definitions
 class Token
 {
 public:
 	char kind;
 	double value;
+	string name;
+
+	// inializations
+	Token(char ch) : kind{ ch } {}
+	Token(char ch, double val) : kind{ ch }, value{ val } {}
+	Token(char ch, string n) : kind{ ch }, name{ n } {}
 };
 
 class Token_stream {
@@ -51,59 +71,8 @@ private:
 	Token buffer;
 };
 
-// constant definitions
-const char number = '8';
-const char quit = 'q';
-const char print = ';';
-const string prompt = "> ";
-const string result = "= ";
-
-// input stream to hold tokens
 Token_stream ts;
-
-// puts token in buffer and marks it full
-void Token_stream::putback(Token t)
-{
-	buffer = t;
-	full = true;
-}
-
-// read characters from cin and compose a token
-Token Token_stream::get()
-{
-
-	if (full) {	// check if we have already have a token ready
-		full = false;
-		return buffer;
-	}
-
-	char ch;
-	cin >> ch;	// >> skips whitespace like space, newline, tab, etc.
-
-	switch (ch) {
-	case ';':	// for "print"
-	case 'q':	// for "quit"
-	case '(': 
-	case ')': 
-	case '+': 
-	case '-': 
-	case '*': 
-	case '/': 
-	case '%':
-		return Token{ ch };	// let each character represent itself
-	case '.':
-	case '0': case '1': case '2': case '3': case '4':
-	case '5': case '6': case '7': case '8': case '9':
-	{
-		cin.putback(ch);
-		double val;
-		cin >> val;
-		return Token{ number, val };
-	}
-	default:
-		error("Bad Token");
-	}
-}
+vector<Variable> var_table;
 
 double expression();
 double term();
