@@ -68,14 +68,14 @@ private:
 	Token buffer;
 };
 
-Token_stream ts;
-vector<Variable> var_table;
 // constant definitions and variables
 const string FileName = "playerdata.txt";
 const char name = 'N';
 const char number = '8';
 const char add = 'A';
 const string decakey = "add";
+Token_stream ts;
+vector<Variable> plr_table;
 
 // declarations used by Token_stream
 
@@ -132,17 +132,15 @@ Token Token_stream::get()
 }
 
 // declarations used by var_table
-double get_value(string s);
-void set_value(string s, double d);
-bool is_declared(string var);
-double define_name(string var, double val);
+double get_price(string s);
+void set_price(string s, double d);
+bool in_list(string var);
+double add_player(string var, double val);
 
 // declarations not used by var_table
 int prompt();
 void test();
 bool isFloat(string myString);
-void createList();
-void lookupList();
 
 // main hehe
 void main()
@@ -160,95 +158,17 @@ bool isFloat(string myString) {
 	return iss.eof() && !iss.fail();
 }
 
-// calls prompt(), createList(), and lookupList()
+// calls prompt()
 void test()
 {
 	int ans = prompt();
-	if (ans == 1) createList();
-	if (ans == 2) lookupList();
-	if (ans == 3) return;
-	if (ans == 4)
 		error("Invalid Entry.\n");
 }
 
-// Initial prompt for app
+// initial prompt for app
 int prompt()
 {
-	cout << "Welcome to the SBC version. 0.0.2.\n";
-	cout << "Press 1 to create a list, or 2 to view a current list.\n";
-	cout << "Press 3 to quit.\n";
-	char ans;
-	cin >> ans;
-	switch (ans) {
-	case '1':
-		return 1;
-		break;
-	case '2':
-		return 2;
-		break;
-	case '3':
-		return 3;
-		break;
-	default:
-		cout << "Invalid entry, dickhead. Closing...\n";
-		return 4;
-		break;
-	}
-}
-
-// creates a text file containing a list of the player names and prices
-void createList()
-{
-	cout << "Please enter a player name followed by cost.\n";
-	cout << "Enter 'done' when you've finished filling the list.\n";
-
-	ofstream playerList;
-	string input;
-	playerList.open(FileName);
-	if (playerList.is_open()) {
-		while (cin) {
-			cin >> input;
-			if (input == "done" || input == "Done" ||
-				input == "done." || input == "Done.") {
-				playerList.close();
-				cout << "List created.\n";
-				break;
-			}
-
-			if (!isFloat(input)) {
-				cout << "Player Name: " << input << '\n';
-				playerList << "Player" << endl;
-				playerList << input << endl;
-				continue;
-			}
-
-			if (isFloat(input)) {
-				cout << "Player Cost: " << input << '\n';
-				playerList << "Price" << endl;
-				playerList << input << endl;
-				continue;
-			}
-		}
-	}
-	else cout << "Unable to open file.\n";
-	return;
-}
-
-// lookups current file containing a list of players and their prices
-void lookupList()
-{
-	ifstream list;
-	string line;
-	list.open(FileName);
-	if (list.is_open()) {
-		while (getline(list, line)) {
-			cout << line << endl;
-		}
-		list.close();
-	}
-	else error("Unable to open file");
-	keep_window_open();
-	return;
+	return 0;
 }
 
 /*
@@ -257,37 +177,37 @@ void lookupList()
 ==========================================================================================
 */
 
-// return the variable of the Variable named s
-double get_value(string s)
+// return the price of the player named plr
+double get_price(string plr)
 {
 	for (const Variable& v : var_table)
-		if (v.name == s) return v.value;
-	error("get: Undefined Variable", s);
+		if (v.name == plr) return v.value;
+	error("get: Undefined Variable", plr);
 }
 
-// set the variable named s to d
-void set_value(string s, double d)
+// set the player plr price to d
+void set_price(string plr, double d)
 {
 	for(Variable& v: var_table)
-		if (v.name == s) {
+		if (v.name == plr) {
 			v.value = d;
 			return;
 		}
 	error("Set: undefined Variable.", s);
 }
 
-// check if var is already in var_table
-bool is_declared(string var)
+// check if plr is already in var_table
+bool in_list(string plr)
 {
 	for (const Variable& v : var_table)
-		if (v.name == var) return true;
+		if (v.name == plr) return true;
 	return false;
 }
 
-// add {var, val} to var_table
-double define_name(string var, double val)
+// add {plr, val} to plr_table
+double add_player(string plr, double val)
 {
-	if (is_declared(var)) error(var, "declared twice");
-	var_table.push_back(Variable{ var, val });
+	if (in_list(plr)) error(plr, "declared twice");
+	var_table.push_back(Variable{ plr, val });
 	return val;
 }
