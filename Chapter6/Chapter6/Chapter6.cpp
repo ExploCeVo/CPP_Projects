@@ -45,6 +45,7 @@ author: Cole Chapin
 ==================================================================================
 */
 
+#include "stdafx.h"
 #include "std_lib_facilities.h"
 
 // token struct, contains 2 types.
@@ -187,6 +188,15 @@ void set_value(string s, double d)
 			return;
 		}
 	error("set: undefined name ", s);
+}
+
+double define_value(string var, double val)
+{
+	for (int i = 0; i <= names.size(); ++i)
+		if (names[i].name == var)
+			error(var, "Defined twice.");
+	names.push_back(Variable{ var, val });
+	return val;
 }
 
 // returns true if s is declared in vector, false otherwise
@@ -338,6 +348,12 @@ void calculate()
 int main() {
 
 	try {
+		// predefine names:
+	//	define_value("pi", 3.1415926535);	One or  both of these cannot
+	//	define_value("e", 2.7182818284);	be stored as a fpl
+											// either that or these can't 
+											// be called outside the function
+											// body, second is more likely
 		calculate();
 		return 0;
 	}
