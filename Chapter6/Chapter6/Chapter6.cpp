@@ -1,10 +1,48 @@
 
 /*
-calculator08buggy.cpp
+Chapter6.cpp
+==================================================================================
+Contains the program worked on in chapter 6 and 7 of
+Programming Principles and Practice using C++.
 
-Helpful comments removed.
+Described Grammer for this program:
+==================================================================================
+Statement:
+	Expresssion
+	Print
+	Quit
+Print:
+	';'
+Quit:
+	'q'
+Expression:
+	Term
+	Expression + Term
+	Expression - Term
+Term:
+	Primary
+	Term * Primary
+	Term / Primary
+	Term % Primary
+Primary:
+	Number
+	(Expression)
+	-Primary
+	+Primary
+Number:
+	floating-point-literal
 
-We have inserted 3 bugs that the compiler will catch and 3 that it won't.
+Input comes from cin through Token_stream called ts
+==================================================================================
+Parts of this program were used from the book as I learned.
+other things were added by myself later on.
+==================================================================================
+BUGS:
+	Add functionality for MOD
+	Do more intense debugging
+==================================================================================
+author: Cole Chapin
+==================================================================================
 */
 
 #include "std_lib_facilities.h"
@@ -116,14 +154,23 @@ void Token_stream::ignore(char c)
 		if (ch == c) return;
 }
 
+// struct used to define a Variable for this project
+// contains a name string, and a double value
 struct Variable {
 	string name;
 	double value;
+
+	// initialization
 	Variable(string n, double v) :name(n), value(v) { }
 };
 
+// vector to hold all the name values
 vector<Variable> names;
 
+// Token stream to hold a stream of tokens
+Token_stream ts;
+
+// more iterative way to search for a name in the vector
 double get_value(string s)
 {
 	for (int i = 0; i<names.size(); ++i)
@@ -131,6 +178,7 @@ double get_value(string s)
 	error("get: undefined name ", s);
 }
 
+// sets the variable s to d if it exists in the vector
 void set_value(string s, double d)
 {
 	for (int i = 0; i <= names.size(); ++i)
@@ -141,6 +189,7 @@ void set_value(string s, double d)
 	error("set: undefined name ", s);
 }
 
+// returns true if s is declared in vector, false otherwise
 bool is_declared(string s)
 {
 	for (int i = 0; i<names.size(); ++i)
@@ -148,18 +197,26 @@ bool is_declared(string s)
 	return false;
 }
 
-Token_stream ts;
+/*
+==================================================================================
+	Functions used by our described grammar set
+==================================================================================
+*/
+
 
 double expression();
 
+// 
 double primary()
 {
 	Token t = ts.get();
 	switch (t.kind) {
-	case '(':
-	{	double d = expression();
-	t = ts.get();
-	if (t.kind != ')') error("'(' expected");
+	case '(':		// if (, evaluate the expression inside
+	{	
+		double d = expression();
+		t = ts.get();	// once expression is done, must be
+		if (t.kind != ')') // followed by )
+			error("'(' expected");
 	}
 	case '-':
 		return -primary();
@@ -172,6 +229,7 @@ double primary()
 	}
 }
 
+// calls primary, and deciphers between * and /
 double term()
 {
 	double left = primary();
@@ -183,7 +241,8 @@ double term()
 			break;
 		case '/':
 		{	double d = primary();
-		if (d == 0) error("divide by zero");
+		if (d == 0) 
+			error("divide by zero");
 		left /= d;
 		break;
 		}
@@ -194,6 +253,7 @@ double term()
 	}
 }
 
+// calls term, deciphers between + and - 
 double expression()
 {
 	double left = term();
@@ -213,19 +273,26 @@ double expression()
 	}
 }
 
+// checks for a string token, if proper tokens are found
+// calls expression and returns a double
 double declaration()
 {
 	Token t = ts.get();
-	if (t.kind != 'a') error("name expected in declaration");
+	if (t.kind != 'a') 
+		error("name expected in declaration");
 	string name = t.name;
-	if (is_declared(name)) error(name, " declared twice");
+	if (is_declared(name)) 
+		error(name, " declared twice");
 	Token t2 = ts.get();
-	if (t2.kind != '=') error("= missing in declaration of ", name);
+	if (t2.kind != '=') 
+		error("= missing in declaration of ", name);
 	double d = expression();
 	names.push_back(Variable(name, d));
 	return d;
 }
 
+// calls declaration and expression, searches for let keyword
+// or returns expresssion()
 double statement()
 {
 	Token t = ts.get();
@@ -238,6 +305,7 @@ double statement()
 	}
 }
 
+// function to help with error clean up
 void clean_up_mess()
 {
 	ts.ignore(print);
@@ -246,13 +314,18 @@ void clean_up_mess()
 const string prompt = "> ";
 const string result = "= ";
 
+// function that starts all of the bullshit
+// prompts user for input, if t = ;, continues to eat
+// else if its quit, returns, else it prints result and statement()
 void calculate()
 {
 	while (true) try {
 		cout << prompt;
 		Token t = ts.get();
 		while (t.kind == print) t = ts.get();
-		if (t.kind == quit) return;
+		if (t.kind == quit) 
+			return;
+
 		ts.unget(t);
 		cout << result << statement() << endl;
 	}
