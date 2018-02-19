@@ -48,9 +48,10 @@ author: Cole Chapin
 #include "stdafx.h"
 #include "std_lib_facilities.h"
 
-// token struct, contains 2 types.
+// token struct, contains 3 types.
 // 1. a token representing itself, or a defined constant.
 // 2. a token representing a number, and the value associated.
+// 3. a token representing a definition, and the name associated.
 struct Token {
 	char kind;
 	double value;
@@ -87,6 +88,7 @@ public:
 // constants used for control-flow and parsing
 const char let = 'L';
 const char quit = 'Q';
+const char sqr = 'F';
 const char print = ';';
 const char number = '8';
 const char name = 'a';
@@ -119,10 +121,11 @@ Token Token_stream::get()
 	case '7':
 	case '8':
 	case '9':
-	{	cin.unget();
-	double val;
-	cin >> val;
-	return Token(number, val);
+	{	
+		cin.unget();
+		double val;
+		cin >> val;
+		return Token(number, val);
 	}
 	default:
 		if (isalpha(ch)) {
@@ -132,7 +135,9 @@ Token Token_stream::get()
 				s += ch;			// while the next char is a letter or number
 			cin.unget();			// append it to the variable string
 			if (s == "let") 
-				return Token(let);	// allow let and quit tokens represent themselves
+				return Token(let);
+			if (s == "sqrt(")
+				return Token(sqr);
 			if (s == "quit")		// note: let returns 'L' whereas quit returns 'Q'
 				return Token(quit);
 			return Token(name, s);	// else return the name string 
@@ -167,6 +172,7 @@ struct Variable {
 
 // vector to hold all the name values
 vector<Variable> names;
+vector<Variable> functions;
 
 // Token stream to hold a stream of tokens
 Token_stream ts;
@@ -239,7 +245,7 @@ double primary()
 	}
 }
 
-// calls primary, and deciphers between * and /
+// calls primary, and deciphers between *,/, and %
 double term()
 {
 	double left = primary();
@@ -255,6 +261,14 @@ double term()
 			error("divide by zero");
 		left /= d;
 		break;
+		}
+		case '%':
+		{
+			double d = primary();
+			if (d == 0)
+				error("divide by zero");
+			left = remainder(left, d);
+			break;
 		}
 		default:
 			ts.unget(t);
@@ -301,14 +315,31 @@ double declaration()
 	return d;
 }
 
-// calls declaration and expression, searches for let keyword
-// or returns expresssion()
+// implements the square_root functionality of the math library.
+double square_root()
+{								// Needs Testing
+	Token t = ts.get();
+	if (t.kind != 'S')
+		error("Expected square root function");
+
+	Token t2 = ts.get();
+	if (t2.kind != number)
+		error("expected an expression after sqrt( ");
+	double d = expression();
+	return sqrt(d);
+}
+
+// calls declaration, square_root, and expression depending
+// on case statement
 double statement()
-{
+{							// Needs Testing
 	Token t = ts.get();
 	switch (t.kind) {
 	case let:
 		return declaration();
+		break;
+	case sqr:
+		return square_root();
 	default:
 		ts.unget(t);
 		return expression();
