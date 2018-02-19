@@ -1,10 +1,2 @@
-﻿  Chapter6.cpp
-c:\users\cole chapin\desktop\repository\cpp_projects\chapter6\chapter6\chapter6.cpp(181): warning C4018: '<': signed/unsigned mismatch
-c:\users\cole chapin\desktop\repository\cpp_projects\chapter6\chapter6\chapter6.cpp(189): warning C4018: '<=': signed/unsigned mismatch
-c:\users\cole chapin\desktop\repository\cpp_projects\chapter6\chapter6\chapter6.cpp(199): warning C4018: '<=': signed/unsigned mismatch
-c:\users\cole chapin\desktop\repository\cpp_projects\chapter6\chapter6\chapter6.cpp(209): warning C4018: '<': signed/unsigned mismatch
-c:\users\cole chapin\desktop\repository\cpp_projects\chapter6\chapter6\chapter6.cpp(146): warning C4715: 'Token_stream::get': not all control paths return a value
-c:\users\cole chapin\desktop\repository\cpp_projects\chapter6\chapter6\chapter6.cpp(184): warning C4715: 'get_value': not all control paths return a value
-c:\users\cole chapin\desktop\repository\cpp_projects\chapter6\chapter6\chapter6.cpp(244): warning C4715: 'primary': not all control paths return a value
-  Chapter6.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\Chapter6\Debug\Chapter6.exe
+﻿  Chapter6.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\Chapter6\Debug\Chapter6.exe
   Chapter6.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\Chapter6\Debug\Chapter6.pdb (Full PDB)

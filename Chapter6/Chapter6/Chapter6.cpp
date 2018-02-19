@@ -323,7 +323,7 @@ double square_root()
 		error("Expected square root function");
 
 	Token t2 = ts.get();
-	if (t.kind != number)
+	if (t2.kind != number)
 		error("expected an expression after sqrt( ");
 	double d = expression();
 	return sqrt(d);
