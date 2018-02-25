@@ -88,13 +88,6 @@ public:
 vector<Player> players;
 Token_stream ts;
 
-// puts token in buffer and marks it full
-void Token_stream::unget(Token t)
-{
-	buffer = t;
-	full = true;
-}
-
 // grabs next token from buffer
 Token Token_stream::get()
 {
@@ -136,7 +129,7 @@ void set_cost(string nm, double cst)
 {
 	for(int i = 0; i < players.size; i++)
 		if (players[i].name == nm) {
-			players[i].value == cst;
+			players[i].value = cst;
 			return;
 		}
 	error("Player not found in the list: ", nm);
@@ -164,7 +157,7 @@ bool in_table(string nm)
 // Prints the full list of players to the console
 void print_list()
 {
-	if (players.size < 0)
+	if (players.size <= 0)
 		error("List is Empty");
 	for (int i = 0; i < players.size; i++)
 		cout << players[i].name << ": " << players[i].value << endl;
@@ -172,17 +165,71 @@ void print_list()
 }
 
 /*
-==========================================================================================
+===================================//=======================================================
 Other Functions
 ==========================================================================================
 */
 
-void display()
+void startup()
 {
-	//TODO
+	cout << "Welcome to SBC Organizer version 0.1.2.\n";
+	cout << "Follow the prompts to create, edit, or view current lists.\n";
+	cout << "1) Create List.\n";
+	cout << "2) View List.\n";
+	cout << "3) Edit List.\n";
+	cout << "4) Quit.\n";
+	return;
+}
+
+// create list
+void create_list()
+{
+	// TODO
+}
+
+// View List
+void view_list()
+{
+	// TODO
+}
+
+// edit list
+void edit_list()
+{
+	// TODO
+}
+
+void run()
+{
+	startup();
+	while (true) try {
+		cout << "> ";
+		Token t = ts.get();
+		if (t.kind == '4')
+			return;
+	}
+	catch (runtime_error& e) {
+		cerr << e.what() << endl;
+	//	clean_up_mess();
+	}
 }
 
 int main() 
 {
-	//TODO
+	try {
+		run();
+		return 0;
+	}
+	catch (exception& e) {
+		cerr << "exception: " << e.what() << endl;
+		char c;
+		while (cin >> c&& c != ';');
+		return 1;
+	}
+	catch (...) {
+		cerr << "exception\n";
+		char c;
+		while (cin >> c && c != ';');
+		return 2;
+	}
 }
