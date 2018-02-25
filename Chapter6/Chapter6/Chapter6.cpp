@@ -376,7 +376,7 @@ void calculate()
 	}
 }
 
-int main() {
+int main()  {
 
 	try {
 		// predefine names:
