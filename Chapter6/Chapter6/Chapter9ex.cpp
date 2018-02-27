@@ -12,49 +12,57 @@ Chapter9ex.cpp
 // name is a string, age is a double
 //use vectors
 class name_pairs {
-	vector<string> name;
-	vector<double> age;
+public:
+	class Invalid {};
+
+	name_pairs(vector<string> nn, vector<double> aa);
+
+	name_pairs();
+
+	vector<string> name_list() const { return names; }
+	vector<double> age_list() const { return ages; }
+
+	void read_names();
+	void read_ages();
+
+private:
+	vector<string> names;
+	vector<double> ages;
 };
 
-void read_names(vector<string>& n)
+name_pairs::name_pairs(vector<string> n, vector<double> a)
+	:names{ n }, ages{ a } 
 {
-	while (cin) {
-		string s;
-		cin >> s;
-		if (s == "quit") break;
-		n.push_back(s);
+
+}
+
+name_pairs default_pair()
+{
+	name_pairs np{};
+	return np;
+}
+
+void read_names(name_pairs np)
+{
+	cout << "Enter in a list of names to be added, type q to quit\n";
+	string s;
+	cin >> s;
+	while (s != "quit") {
+		np.name_list().push_back(s);
 	}
 }
 
-void read_ages(vector<string>& n, vector<double>& a)
+void foo()
 {
-	for (int i = 0; i < n.size(); ++i) {
-		cout << "Enter an age for " << n[i] << ':';
-		double age;
-		cin >> age;
-		a.push_back(age);
-	}
-}
-
-void print(vector<string>& n, vector<double>& a)
-{
-	for (int i = 0; i < n.size(); ++i) 
-		cout << n[i] << ": " << a[i];
+	name_pairs np = default_pair();
+	read_names(np);
 	return;
-}
-
-void sort()
-{
-	//TODO
-	// sort based off names and reassign ages
 }
 
 int main()
 {
-	try {
 		cout << "Enter a list of names followed by quit.\n";
 		cout << "Then enter a list of ages for the list of names. \n";
-		read_names(n);
-		read_ages(n, a);
-	}
+		foo();
+		return 0;
 }

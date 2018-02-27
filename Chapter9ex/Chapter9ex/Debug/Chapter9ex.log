@@ -1,0 +1,5 @@
+﻿  Chapter9ex.cpp
+c:\users\cole chapin\desktop\repository\cpp_projects\chapter9ex\chapter9ex\chapter9ex.cpp(57): warning C4018: '<': signed/unsigned mismatch
+c:\users\cole chapin\desktop\repository\cpp_projects\chapter9ex\chapter9ex\chapter9ex.cpp(68): warning C4018: '<': signed/unsigned mismatch
+  Chapter9ex.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\Chapter9ex\Debug\Chapter9ex.exe
+  Chapter9ex.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\Chapter9ex\Debug\Chapter9ex.pdb (Full PDB)
