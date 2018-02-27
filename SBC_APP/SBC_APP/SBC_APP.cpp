@@ -27,25 +27,29 @@ List_Name:
 String
 ==========================================================================================
 CURRENT IMPLEMENTATIONS:
-The players vector should be more or less working properly, will be easier to test once
-some work is done as far as grabbing examples from the console.
-
-Implementation of Token_stream::get() needs some work
-
-Functionality of the outer parts of the program need some work
+get_name()
+get_total()
+update_name()
+update_total()
+add_player()
+player_cost()
+print_list()
+---------------------------
+startup()
 ==========================================================================================
 TODO:
-Implement the current grammar and test it
+Create a basic menu
 
-Implement Outer functionality of the program
+Basic error checking
 ==========================================================================================
-last edit: 2/18/18
+last edit: 2/27/18
 author: Cole Chapin
 ==========================================================================================
 */
 
 #include "stdafx.h"
 #include "std_lib_facilities.h"
+#include "SBC_APP.h"
 
 class Squad_List {
 public:
@@ -54,6 +58,14 @@ public:
 	Squad_List(string sn, double tc, vector<string> pn, vector<double> pr);
 	Squad_List();
 
+	string get_sq_name() const { return squad_name;}
+	double get_total() const { return total_cost; }
+
+	void update_name(string s);
+	double update_total();
+	void add_player(string s);
+	void player_cost(double d);
+	void print_list();
 
 private:
 	string squad_name;
@@ -69,13 +81,71 @@ Squad_List::Squad_List(string sn, double tc, vector<string> pn, vector<double> p
 Squad_List::Squad_List()
 	: squad_name{}, total_cost{} {}
 
-void print_list()
+void Squad_List::print_list()
 {
+	cout << "Squad Name: " << squad_name << endl;
+	for (int i = 0; i < player_name.size(); ++i) {
+		cout << "Player: " << player_name[i] << ", Cost: " << price[i] << endl;
+	}
+	cout << "Total Cost: " << total_cost << endl;
 	return;
+}
+
+// function that updates the squad name
+void Squad_List::update_name(string s)
+{
+	squad_name = s;
+}
+
+// function that updates the total cost for the squad
+double Squad_List::update_total()
+{
+	total_cost = 0;
+	for (int i = 0; i < price.size(); ++i)
+		total_cost += price[i];
+	return total_cost;
+} 
+
+// function that adds a player to the player_name vector
+void Squad_List::add_player(string s)
+{
+	player_name.push_back(s);
+}
+
+// function that adds a price to the price vector
+void Squad_List::player_cost(double d)
+{
+	price.push_back(d);
+}
+
+int test()
+{
+	Squad_List sl = Squad_List();
+	sl.update_name("PSG");
+	sl.add_player("Neymar");
+	sl.player_cost(1000);
+	sl.update_total();
+	sl.print_list();
+	return 0;
+} // tests everything thus far, so far they work
+
+void startup()
+{
+	cout << "SBC_APP version 0.1.0." << endl;
+	cout << "Use one of the following commands to get started:" << endl;
+	cout << "1) Create a squad" << endl;
+	cout << "2) View an existing squad" << endl;
+	cout << "3) Exit application." << endl;
+	keep_window_open();
+	return;
+}
+void run()
+{
+	startup();
 }
 
 int main()
 {
-	Squad_List sl = Squad_List();
-
+	run();
+	return 0;
 }
