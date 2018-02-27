@@ -1,2 +1,4 @@
-﻿  Chapter6.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\Chapter6\Debug\Chapter6.exe
-  Chapter6.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\Chapter6\Debug\Chapter6.pdb (Full PDB)
+﻿  Chapter9.cpp
+c:\users\cole chapin\desktop\repository\cpp_projects\chapter6\chapter6\chapter9.cpp(75): error C4716: 'Chrono::leapyear': must return a value
+c:\users\cole chapin\desktop\repository\cpp_projects\chapter6\chapter6\chapter9.cpp(124): error C4716: 'Chrono::next_Sunday': must return a value
+c:\users\cole chapin\desktop\repository\cpp_projects\chapter6\chapter6\chapter9.cpp(129): error C4716: 'Chrono::next_weekday': must return a value
