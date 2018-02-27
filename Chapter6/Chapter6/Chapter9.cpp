@@ -1,155 +1,130 @@
 /*
-Fun with classes
-Chapter 8
-Programming Principles and Practice using C++
-Chapter8.cpp
-
-	Date:
-	==========
-y:  |  2005  |
-m:  |   12   |
-d:  |   24   |
-	==========
+Source file for Chapter 9 exercises in Programming Principles and Practice
+implements functions found in header file Chapter9.h
+Chapter9.cpp
 */
 
 #include "stdafx.h"
 #include "std_lib_facilities.h"
+#include "Chapter9.h"
 
-// simple year class
-class Year {
-	static const int min = 1800;
-	static const int max = 2200;
-public:
-	class Invalid {};
-	Year(int x) : y{ x } { if (x < min || max <= x) throw Invalid{}; }
-	int year() { return y; }
-private:
-	int y;
-};
+namespace Chrono {
 
-// simple date
-class Date {
-public:
-	class Invalid {};
-
-	Date();
-	Date(int y);
-	Date(int y, Month m, int d);
-
-	void add_day(int n);
-
-	int Date::month()
+	Date::Date(int yy, Month mm, int dd)
+		:y{ yy }, m{ mm }, d{ dd }
 	{
-		return m;
+		if (!is_date(yy, mm, dd)) throw Invalid{};
 	}
 
-	int Date::day()
+	const Date& default_date()
 	{
-		return d;
+		static Date dd{ 2001, Month::jan, 1 };
+		return dd;
 	}
 
-	int Date::year()
+	Date::Date()
+		:y{ default_date().year() },
+		m{ default_date().month() },
+		d{ default_date().day() } {}
+
+	void Date::add_day(int n)
 	{
-		return y;
+		//TODO
 	}
 
-private:
-	int y;	// year
-	Month m;	// month
-	int d;	// day
-
-	bool is_valid();
-};
-
-// month enum class
-enum class Month {
-	jan = 1, feb, mar, apr, may, jun, jul, aug, sep,
-	oct, nov, dec
-};
-
-// day enum class
-enum class Day {
-	monday, tuesday, wednesday, thursday, friday, saturday, sunday
-};
-
-Date today;	// a Date variable (named object)
-
-// Default Constructor
-Date::Date()
-	:y{ 2000 }, m{ Month::jan }, d{ 1 } {}
-
-// Constructor: January 1st of year y
-Date::Date(int y)
-	: y{ y }, m{ Month::jan }, d{ 1 } {}
-
-// constructor
-Date::Date(int yy, Month mm, int dd)
-	:y{ yy }, m{ mm }, d{ dd }
-{
-	y = yy;
-	m = mm;
-	d = dd;
-
-	if (!is_valid()) throw Invalid{};
-}
-
-void Date::add_day(int n)
-{
-	// TODO
-}
-
-bool Date::is_valid()
-{
-	if (m < 1 || 12 < m)
-		return false;
-	if (d < 1 || 30 < d)
-		return false;
-	return true;
-}
-
-Month int_to_month(int x)
-{
-	if (x < int(Month::jan) || int(Month::dec) < x)
-		error("bad month");
-	return Month(x);
-}
-
-Month operator++(Month& m)
-{
-	// m becomes jan if (m==dec) and Month(int(m)+1) otherwise
-	m = (m == Month::dec) ? Month::jan : Month(int(m) + 1);
-	return m;
-}
-
-vector<string> month_tbl;
- 
-// allowing << operator to be used for dates
-ostream& operator<<(ostream& os, Month m)
-{
-	return os << month_tbl[int(m)];
-}
-
-// check if entered values are valid, if they are
-// initialize dd
-void init_day(Date& dd, int y, int m, int d)
-{
-	
-}
-
-void f(int x, int y)
-{
-	try {
-		Date dxy{ 2004, x, y };
-		cout << dxy << '\n';
-		dxy.add_day(2);
+	void Date::add_month(int n)
+	{
+		//TODO
 	}
-	catch(Date::Invalid) {
-		error("Invalid Date");
+
+	void Date::add_year(int n)
+	{
+		if (m == Month::feb && d == 29 && !leapyear(y + n)) {
+			m = Month::mar;
+			d = 1;
+		}
+		y += n;
 	}
-}
+	// helper functions
 
-// main
-int main()
-{
+	bool is_date(int y, Month m, int d)
+	{
+		if (d <= 0) return false;
+		if (m < Month::jan || Month::dec < m) return false;
 
-}
+		int days_in_month = 31;
+
+		switch (m) {
+		case Month::feb:
+			days_in_month = (leapyear(y)) ? 29 : 28;
+			break;
+		case Month::apr: case Month::jun: case Month:: sep:
+		case Month:: nov:
+			days_in_month = 30;
+			break;
+		}
+
+		if (days_in_month < d) return false;
+
+		return true;
+	}
+
+	bool leapyear(int y)
+	{
+		//TODO, exercise 10
+	}
+
+	bool operator==(const Date& a, const Date& b)
+	{
+		return a.year() == b.year()
+			&& a.month() == b.month()
+			&& a.day() == b.day();
+	}
+
+	bool operator!=(const Date& a, const Date& b)
+	{
+		return !(a == b);
+	}
+
+	/*ostream& operator<<(ostream& os, const Date& d)
+	{
+		return os << '(' << d.year()
+			<< ',' << d.month()
+			<< ',' << d.day() << ')';
+	}*/ // bugged
+
+	istream& operator >> (istream& is, const Date& dd)
+	{
+		int y, m, d;
+		char ch1, ch2, ch3, ch4;
+		is >> ch1 >> y >> ch2 >> m >> ch3 >> d >> ch4;
+		if (!is) return is;
+
+		if (ch1 != '(' || ch2 != ',' || ch3 != ',' || ch4 != ')') {
+			is.clear(ios_base::failbit);	// set failbit
+			return is;
+		}
+		
+		dd == Date(y, Month(m), d);	// update dd
+		return is;
+	}
+
+	enum class Day {
+		sunday, monday, tuesday, wednesday, thursday, friday, saturday
+	};
+
+	/*Day day_of_week(const Date& d)
+	{
+		//TODO
+	}*/
+
+	Date next_Sunday(const Date& d)
+	{
+		//TODO
+	}
+
+	Date next_weekday(const Date& d)
+	{
+		//TODO
+	}
+} // namespace Chrono
