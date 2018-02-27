@@ -32,8 +32,5 @@
     <ClCompile Include="SBC_APP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SBC_APP_2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
