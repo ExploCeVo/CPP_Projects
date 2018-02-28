@@ -1,5 +1,7 @@
 ﻿  SBC_APP.cpp
-c:\users\cole chapin\desktop\repository\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(85): warning C4018: '<': signed/unsigned mismatch
-c:\users\cole chapin\desktop\repository\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(102): warning C4018: '<': signed/unsigned mismatch
+c:\users\cole chapin\desktop\repository\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(72): warning C4018: '<': signed/unsigned mismatch
+c:\users\cole chapin\desktop\repository\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(89): warning C4018: '<': signed/unsigned mismatch
+c:\users\cole chapin\desktop\repository\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(122): warning C4101: 'ch2': unreferenced local variable
+c:\users\cole chapin\desktop\repository\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(123): warning C4101: 'ch3': unreferenced local variable
   SBC_APP.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\SBC_APP\Debug\SBC_APP.exe
   SBC_APP.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\SBC_APP\Debug\SBC_APP.pdb (Full PDB)
