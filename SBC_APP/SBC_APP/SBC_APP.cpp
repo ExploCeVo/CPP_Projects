@@ -116,6 +116,7 @@ void startup()
 
 void test()
 {
+	//test
 	cout << "Enter a String." << endl;
 	char ch;
 	cin >> ch;
