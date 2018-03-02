@@ -18,11 +18,12 @@ namespace mySBC {
 		string get_sq_name() const { return squad_name; }
 		double get_total() const { return total_cost; }
 
-		void update_name(string s);
+		void update_squad_name(string s);
 		double update_total();
 		void add_player(string s);
 		void player_cost(double d);
 		void print_list();
+		bool Squad_List::has_player(string s);
 
 	private:
 		string squad_name;
