@@ -31,7 +31,17 @@ namespace mySBC {
 		vector<double> price;
 	};
 
-	int test();
-	void startup();
-	void run();
+	class Token {
+	public:
+		Token(char k, string s);
+		Token(char k, double v);
+		Token();
+
+		 
+	private:
+		char kind;
+		string name;
+		double value;
+	};
+
 } // namespace mySBC

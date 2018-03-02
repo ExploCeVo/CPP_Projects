@@ -36,13 +36,19 @@ player_cost()
 print_list()
 ---------------------------
 startup()
+run() - will eventually run all the menu type functions	
 ==========================================================================================
 TODO:
 Create a basic menu
 
+Token and Token_Stream currently in progress 
+Will first test the Token class followed by the Token_Stream
+
 Basic error checking
+
+all classes for this application can be found in SBC_APP.h
 ==========================================================================================
-last edit: 2/27/18
+last edit: 2/28/18
 author: Cole Chapin
 ==========================================================================================
 */
@@ -51,28 +57,7 @@ author: Cole Chapin
 #include "std_lib_facilities.h"
 #include "SBC_APP.h"
 
-class Squad_List {
-public:
-	class Invalid {};
-
-	Squad_List(string sn, double tc, vector<string> pn, vector<double> pr);
-	Squad_List();
-
-	string get_sq_name() const { return squad_name;}
-	double get_total() const { return total_cost; }
-
-	void update_name(string s);
-	double update_total();
-	void add_player(string s);
-	void player_cost(double d);
-	void print_list();
-
-private:
-	string squad_name;
-	double total_cost;
-	vector<string> player_name;
-	vector<double> price;
-};
+using namespace mySBC;
 
 Squad_List::Squad_List(string sn, double tc, vector<string> pn, vector<double> pr)
 	:squad_name{ sn }, total_cost{ tc }, player_name{ pn }, price{ pr } {}
@@ -118,17 +103,6 @@ void Squad_List::player_cost(double d)
 	price.push_back(d);
 }
 
-int test()
-{
-	Squad_List sl = Squad_List();
-	sl.update_name("PSG");
-	sl.add_player("Neymar");
-	sl.player_cost(1000);
-	sl.update_total();
-	sl.print_list();
-	return 0;
-} // tests everything thus far, so far they work
-
 void startup()
 {
 	cout << "SBC_APP version 0.1.0." << endl;
@@ -139,13 +113,30 @@ void startup()
 	keep_window_open();
 	return;
 }
+
+void test()
+{
+	cout << "Enter a String." << endl;
+	char ch;
+	cin >> ch;
+
+	while (iswspace(ch))
+		cin >> ch;
+	
+	if (isalpha(ch)) {
+
+	}
+	
+	keep_window_open();
+}
+
 void run()
 {
 	startup();
 }
-
+	
 int main()
 {
-	run();
+	test();
 	return 0;
 }
