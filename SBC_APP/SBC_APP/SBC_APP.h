@@ -34,15 +34,22 @@ namespace mySBC {
 
 	class Token {
 	public:
-		Token(char k, string s);
-		Token(char k, double v);
-		Token();
-
+		Token(char ch) : kind(ch), value(0) {}
+		Token(char ch, double v) : kind(ch), value(v) {}
 		 
 	private:
 		char kind;
-		string name;
 		double value;
+	};
+
+	class Token_stream {
+	public:
+		Token_stream() : full(0), buffer(0) {}
+		Token get();
+
+	private:
+		bool full;
+		Token buffer;
 	};
 
 } // namespace mySBC

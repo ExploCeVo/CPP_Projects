@@ -153,16 +153,13 @@ void test()
 	}
 
 	// if it was a number, try to solve the fucking problem
-	else if (isdigit(ch)) {
+	if (isdigit(ch)) {
 		cout << "Did you mean to assign a price to a player?" << endl;
 		cout << "Enter a name of the player to assign the price to." << endl;
 
 		cin.unget();
 		double d;
 		cin >> d;
-		string s;
-		cin >> s;
-		
 	}
 }
 
