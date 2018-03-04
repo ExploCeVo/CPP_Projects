@@ -59,7 +59,8 @@ author: Cole Chapin
 
 using namespace mySBC;
 
-const char number = '8';
+const char value = '8';
+const char player = '0';
 
 
 Squad_List::Squad_List(string sn, double tc, vector<string> pn, vector<double> pr)
@@ -126,14 +127,17 @@ Token Token_stream::get()
 	cin >> ch;
 
 	if (isalpha(ch)) {
-		return Token(ch);
+		cin.unget();
+		string name;
+		cin >> name;
+		return Token(player, name);
 	}
 
-	else if (isdigit(ch)) {
+	if (isdigit(ch)) {
 		cin.unget();
-		double val;
-		cin >> val;
-		return Token(number, val);
+		double d;
+		cin >> d;
+		return Token(value, d);
 	}
 	error("Bad Token");
 }
@@ -141,7 +145,7 @@ void Token_stream::ignore()
 {
 	//todo
 }
-void Token_stream::unget()
+void Token_stream::unget(Token t)
 {
 	//todo
 }
@@ -170,6 +174,8 @@ void test()
 	//test
 	cout << "Enter a String." << endl;
 	Token t = ts.get();
+
+	if(t.kind)
 }
 
 // main
