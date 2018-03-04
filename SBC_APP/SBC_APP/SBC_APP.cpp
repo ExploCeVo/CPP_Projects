@@ -59,6 +59,9 @@ author: Cole Chapin
 
 using namespace mySBC;
 
+const char number = '8';
+
+
 Squad_List::Squad_List(string sn, double tc, vector<string> pn, vector<double> pr)
 	:squad_name{ sn }, total_cost{ tc }, player_name{ pn }, price{ pr } {}
 
@@ -114,6 +117,35 @@ bool Squad_List::has_player(string s)
 	}
 }
 
+//current functions to be worked on
+Token Token_stream::get()
+{
+	// check if buffer is full
+	if (full) { full = false; return buffer; }
+	char ch;
+	cin >> ch;
+
+	if (isalpha(ch)) {
+		return Token(ch);
+	}
+
+	else if (isdigit(ch)) {
+		cin.unget();
+		double val;
+		cin >> val;
+		return Token(number, val);
+	}
+	error("Bad Token");
+}
+void Token_stream::ignore()
+{
+	//todo
+}
+void Token_stream::unget()
+{
+	//todo
+}
+
 // Initial startup
 void startup()
 {
@@ -137,30 +169,7 @@ void test()
 {
 	//test
 	cout << "Enter a String." << endl;
-	char ch;
-	cin >> ch;
-
-	// eats whitespace as intended
-	while (iswspace(ch))
-		cin >> ch;
-	
-	// checks if input was a word
-	if (isalpha(ch)) {
-		cin.unget();
-		string s;
-		cin >> s;
-		cout << s << endl;
-	}
-
-	// if it was a number, try to solve the fucking problem
-	if (isdigit(ch)) {
-		cout << "Did you mean to assign a price to a player?" << endl;
-		cout << "Enter a name of the player to assign the price to." << endl;
-
-		cin.unget();
-		double d;
-		cin >> d;
-	}
+	Token t = ts.get();
 }
 
 // main
