@@ -77,7 +77,7 @@ void Squad_List::print_list()
 }
 
 // function that updates the squad name
-void Squad_List::update_name(string s)
+void Squad_List::update_squad_name(string s)
 {
 	squad_name = s;
 }
@@ -103,6 +103,18 @@ void Squad_List::player_cost(double d)
 	price.push_back(d);
 }
 
+// function that checks if a player is in the list of players
+bool Squad_List::has_player(string s)
+{
+	for (int i = 0; i < player_name.size(); ++i) {
+		if (s == player_name[i]) {
+			return true;
+		}
+		return false;
+	}
+}
+
+// Initial startup
 void startup()
 {
 	cout << "SBC_APP version 0.1.0." << endl;
@@ -114,6 +126,13 @@ void startup()
 	return;
 }
 
+// will eventually run everything
+void run()
+{
+	startup();
+}
+
+// function to test ideas
 void test()
 {
 	//test
@@ -121,23 +140,36 @@ void test()
 	char ch;
 	cin >> ch;
 
+	// eats whitespace as intended
 	while (iswspace(ch))
 		cin >> ch;
 	
+	// checks if input was a word
 	if (isalpha(ch)) {
-
+		cin.unget();
+		string s;
+		cin >> s;
+		cout << s << endl;
 	}
-	
-	keep_window_open();
+
+	// if it was a number, try to solve the fucking problem
+	else if (isdigit(ch)) {
+		cout << "Did you mean to assign a price to a player?" << endl;
+		cout << "Enter a name of the player to assign the price to." << endl;
+
+		cin.unget();
+		double d;
+		cin >> d;
+		string s;
+		cin >> s;
+		
+	}
 }
 
-void run()
-{
-	startup();
-}
-	
+// main
 int main()
 {
 	test();
+	keep_window_open();
 	return 0;
 }
