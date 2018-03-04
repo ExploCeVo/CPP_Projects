@@ -8,8 +8,6 @@ SBC_APP.h
 
 namespace mySBC {
 
-	Token_stream ts;
-
 	class Squad_List {
 	public:
 		class Invalid {};
@@ -34,13 +32,11 @@ namespace mySBC {
 		vector<double> price;
 	};
 
-	class Token {
-	public:
+	struct Token {
 		Token(char ch) : kind(ch), value(0) {}
 		Token(char ch, string s) : kind(ch), name(s)  {}
 		Token(char ch, double v) : kind(ch), value(v) {}
 		 
-	private:
 		char kind;
 		double value;
 		string name;
