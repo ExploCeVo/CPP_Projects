@@ -8,6 +8,8 @@ SBC_APP.h
 
 namespace mySBC {
 
+	Token_stream ts;
+
 	class Squad_List {
 	public:
 		class Invalid {};
@@ -34,15 +36,26 @@ namespace mySBC {
 
 	class Token {
 	public:
-		Token(char k, string s);
-		Token(char k, double v);
-		Token();
-
+		Token(char ch) : kind(ch), value(0) {}
+		Token(char ch, string s) : kind(ch), name(s)  {}
+		Token(char ch, double v) : kind(ch), value(v) {}
 		 
 	private:
 		char kind;
-		string name;
 		double value;
+		string name;
+	};
+
+	class Token_stream {
+	public:
+		Token_stream() : full(0), buffer(0) {}
+		Token get();
+		void ignore();
+		void unget(Token t) {buffer = t; full = true;}
+
+	private:
+		bool full;
+		Token buffer;
 	};
 
 } // namespace mySBC

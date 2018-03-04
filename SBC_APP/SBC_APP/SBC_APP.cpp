@@ -59,6 +59,10 @@ author: Cole Chapin
 
 using namespace mySBC;
 
+const char value = '8';
+const char player = '0';
+
+
 Squad_List::Squad_List(string sn, double tc, vector<string> pn, vector<double> pr)
 	:squad_name{ sn }, total_cost{ tc }, player_name{ pn }, price{ pr } {}
 
@@ -114,6 +118,38 @@ bool Squad_List::has_player(string s)
 	}
 }
 
+//current functions to be worked on
+Token Token_stream::get()
+{
+	// check if buffer is full
+	if (full) { full = false; return buffer; }
+	char ch;
+	cin >> ch;
+
+	if (isalpha(ch)) {
+		cin.unget();
+		string name;
+		cin >> name;
+		return Token(player, name);
+	}
+
+	if (isdigit(ch)) {
+		cin.unget();
+		double d;
+		cin >> d;
+		return Token(value, d);
+	}
+	error("Bad Token");
+}
+void Token_stream::ignore()
+{
+	//todo
+}
+void Token_stream::unget(Token t)
+{
+	//todo
+}
+
 // Initial startup
 void startup()
 {
@@ -137,33 +173,9 @@ void test()
 {
 	//test
 	cout << "Enter a String." << endl;
-	char ch;
-	cin >> ch;
+	Token t = ts.get();
 
-	// eats whitespace as intended
-	while (iswspace(ch))
-		cin >> ch;
-	
-	// checks if input was a word
-	if (isalpha(ch)) {
-		cin.unget();
-		string s;
-		cin >> s;
-		cout << s << endl;
-	}
-
-	// if it was a number, try to solve the fucking problem
-	else if (isdigit(ch)) {
-		cout << "Did you mean to assign a price to a player?" << endl;
-		cout << "Enter a name of the player to assign the price to." << endl;
-
-		cin.unget();
-		double d;
-		cin >> d;
-		string s;
-		cin >> s;
-		
-	}
+	if(t.kind)
 }
 
 // main
