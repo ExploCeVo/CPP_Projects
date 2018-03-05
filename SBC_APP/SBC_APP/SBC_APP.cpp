@@ -69,9 +69,11 @@ author: Cole Chapin
 using namespace mySBC;
 
 // CONSTANT VARIABLES
-const char VALUE = '2';
-const char PLAYER = '1';
 const char QUIT = '0';
+const char PLAYER = '1';
+const char VALUE = '2';
+const char CREATE = '3';
+const char VIEW = '4';
 const char PROMPT = '>';
 
 // LOCAL VARIABLES
@@ -160,7 +162,7 @@ Token Token_stream::get()
 
 		return Token(PLAYER, s);
 	}
-	else error("Bad Token");
+	else error("Bad Token Nigger.");
 }
 
 // function that ignores certain tokens caught by the get() function
@@ -169,15 +171,89 @@ void Token_stream::ignore()
 	//todo
 }
 
+// current in progress functions....
+void create_squad()
+{
+	//todo
+}
+void view_squad()
+{
+	//todo
+}
+bool string_test(const string& s)
+{
+	string capfirst;
+	string uppercase;
+	string lowercase;
+	string capfirstp;
+	string uppercasep;
+	string lowercasep;
+	locale settings;
+
+	// check if the string has a period
+	if (s[s.length() - 1] == '.') {
+		lowercasep = s;
+		capfirstp = s;
+		uppercasep = s;
+
+		for (short i = 0; i < s.length() - 1; ++i) {
+			lowercase += s[i];
+			capfirst += s[i];
+			uppercasep += s[i];
+		}
+	}
+
+	else {
+		lowercase = s;
+		capfirst = s;
+		uppercase = s;
+		lowercasep = s + '.';
+		capfirstp = s + '.';
+		uppercasep = s + '.';
+	}
+
+	// convert capfirst and capfirstp
+	capfirst = toupper(s[0], settings);
+	for (short i = 1; i < s.length(); ++i)
+		capfirst += s[i];
+
+	capfirstp = toupper(s[0], settings);
+	for (short i = 1; i < s.length(); ++i)
+		capfirstp += s[i];
+
+	// convert uppercase and uppercasep
+	for (short i = 0; i < s.length(); ++i) {
+		uppercase[i] = toupper(s[i], settings);
+		uppercasep[i] = toupper(s[i], settings);
+	}
+
+	// make sure lowercase strings are lowercase
+	if (isupper(lowercase[0]))
+		tolower(lowercase[0], settings);
+	if (isupper(lowercasep[0]))
+		tolower(lowercasep[0], settings);
+
+	bool allowed;
+	cout << "lowercase: " << lowercase << endl;
+	cout << "lowercasep: " << lowercasep << endl;
+	cout << "capfirst: " << capfirst << endl;
+	cout << "capfirstp: " << capfirstp << endl;
+	cout << "uppercase: " << uppercase << endl;
+	cout << "uppercasep: " << uppercasep << endl;
+	if (s == lowercase || s == lowercasep || s == capfirst || s == capfirstp
+		|| s == uppercase || s == uppercasep)
+		return true;
+	return false;
+}
+
 // Initial startup
 void startup()
 {
-	cout << "SBC_APP version 0.1.0." << endl;
+	cout << "SBC_APP version 0.1.1." << endl;
 	cout << "Use one of the following commands to get started:" << endl;
 	cout << "1) Create a squad" << endl;
 	cout << "2) View an existing squad" << endl;
 	cout << "3) Exit application." << endl;
-	keep_window_open();
 	return;
 }
 
@@ -206,19 +282,41 @@ void test()
 	cout << "Enter a String." << endl;
 	Token t = ts.get();
 
-	if (t.kind == player) 
+	if (t.kind == PLAYER) 
 		cout << "You entered a player name: " << t.name << endl;
 
-	if (t.kind == value)
+	if (t.kind == VALUE)
 		cout << "You entered a player value: " << t.value << endl;
 
 	keep_window_open();
 	return;
 }
 
+bool test2()
+{
+	cout << "Enter a test string." << endl;
+	string s;
+	cin >> s;
+	return string_test(s);
+}
+// function that handles menu functionality
+void command_list()
+{
+	Token t = ts.get();
+	if (t.kind == CREATE) {
+		create_squad();
+	}
+
+	if (t.kind == VIEW) {
+		view_squad();
+	}
+
+}
+
 // main
 int main()
 {
-	test();
+	test2();
+	keep_window_open();
 	return 0;
 }
