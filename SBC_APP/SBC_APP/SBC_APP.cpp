@@ -1,6 +1,7 @@
-/**
-SBC_APP.cpp
-
+/*
+==========================================================================================
+SBC_APP.cpp ==============================================================================
+==========================================================================================
 ==========================================================================================
 Grammer, currently a work in progress:
 
@@ -27,28 +28,36 @@ List_Name:
 String
 ==========================================================================================
 CURRENT IMPLEMENTATIONS:
+Squad_List functions:
+print_list()
 get_name()
 get_total()
 update_name()
 update_total()
 add_player()
 player_cost()
-print_list()
----------------------------
+has_player()
+------------------------------------------------------------------------------------------
+Token_stream functions:
+get()
+ignore()
+putback(Token t)
+------------------------------------------------------------------------------------------
+Local functions:
 startup()
-run() - will eventually run all the menu type functions	
+run() - will eventually run all the menu type functions
+test()
+main()
 ==========================================================================================
 TODO:
 Create a basic menu
-
-Token and Token_Stream currently in progress 
-Will first test the Token class followed by the Token_Stream
-
+Menu Navigation
+Advanced token checking
 Basic error checking
-
+==========================================================================================
 all classes for this application can be found in SBC_APP.h
 ==========================================================================================
-last edit: 2/28/18
+last edit: 3/4/18
 author: Cole Chapin
 ==========================================================================================
 */
@@ -59,10 +68,18 @@ author: Cole Chapin
 
 using namespace mySBC;
 
-const char value = '8';
-const char player = '0';
+// CONSTANT VARIABLES
+const char QUIT = '0';
+const char PLAYER = '1';
+const char VALUE = '2';
+const char CREATE = '3';
+const char VIEW = '4';
+const char PROMPT = '>';
 
+// LOCAL VARIABLES
+Token_stream ts;
 
+// specific constructor
 Squad_List::Squad_List(string sn, double tc, vector<string> pn, vector<double> pr)
 	:squad_name{ sn }, total_cost{ tc }, player_name{ pn }, price{ pr } {}
 
@@ -70,6 +87,7 @@ Squad_List::Squad_List(string sn, double tc, vector<string> pn, vector<double> p
 Squad_List::Squad_List()
 	: squad_name{}, total_cost{} {}
 
+// function to print out the squad name, and the list of players and prices
 void Squad_List::print_list()
 {
 	cout << "Squad Name: " << squad_name << endl;
@@ -118,7 +136,9 @@ bool Squad_List::has_player(string s)
 	}
 }
 
-//current functions to be worked on
+// token get function, returns the proper Token.
+// needs some error handing and extra checks
+// works well enough for now
 Token Token_stream::get()
 {
 	// check if buffer is full
@@ -126,39 +146,114 @@ Token Token_stream::get()
 	char ch;
 	cin >> ch;
 
-	if (isalpha(ch)) {
-		cin.unget();
-		string name;
-		cin >> name;
-		return Token(player, name);
-	}
-
 	if (isdigit(ch)) {
 		cin.unget();
 		double d;
 		cin >> d;
-		return Token(value, d);
+		return Token(VALUE, d);
 	}
-	error("Bad Token");
+
+	if (isalpha(ch)) {
+		cin.unget();
+		string s;
+		cin >> s;
+		if (s == "quit" || s == "Quit" || s == "QUIT") 
+			return Token(QUIT);
+
+		return Token(PLAYER, s);
+	}
+	else error("Bad Token Nigger.");
 }
+
+// function that ignores certain tokens caught by the get() function
 void Token_stream::ignore()
 {
 	//todo
 }
-void Token_stream::unget(Token t)
+
+// current in progress functions....
+void create_squad()
 {
 	//todo
+}
+void view_squad()
+{
+	//todo
+}
+bool string_test(const string& s)
+{
+	string capfirst;
+	string uppercase;
+	string lowercase;
+	string capfirstp;
+	string uppercasep;
+	string lowercasep;
+	locale settings;
+
+	// check if the string has a period
+	if (s[s.length() - 1] == '.') {
+		lowercasep = s;
+		capfirstp = s;
+		uppercasep = s;
+
+		for (short i = 0; i < s.length() - 1; ++i) {
+			lowercase += s[i];
+			capfirst += s[i];
+			uppercasep += s[i];
+		}
+	}
+
+	else {
+		lowercase = s;
+		capfirst = s;
+		uppercase = s;
+		lowercasep = s + '.';
+		capfirstp = s + '.';
+		uppercasep = s + '.';
+	}
+
+	// convert capfirst and capfirstp
+	capfirst = toupper(s[0], settings);
+	for (short i = 1; i < s.length(); ++i)
+		capfirst += s[i];
+
+	capfirstp = toupper(s[0], settings);
+	for (short i = 1; i < s.length(); ++i)
+		capfirstp += s[i];
+
+	// convert uppercase and uppercasep
+	for (short i = 0; i < s.length(); ++i) {
+		uppercase[i] = toupper(s[i], settings);
+		uppercasep[i] = toupper(s[i], settings);
+	}
+
+	// make sure lowercase strings are lowercase
+	if (isupper(lowercase[0]))
+		tolower(lowercase[0], settings);
+	if (isupper(lowercasep[0]))
+		tolower(lowercasep[0], settings);
+
+	bool allowed;
+	cout << "lowercase: " << lowercase << endl;
+	cout << "lowercasep: " << lowercasep << endl;
+	cout << "capfirst: " << capfirst << endl;
+	cout << "capfirstp: " << capfirstp << endl;
+	cout << "uppercase: " << uppercase << endl;
+	cout << "uppercasep: " << uppercasep << endl;
+	if (s == lowercase || s == lowercasep || s == capfirst || s == capfirstp
+		|| s == uppercase || s == uppercasep)
+		return true;
+	return false;
 }
 
 // Initial startup
 void startup()
 {
-	cout << "SBC_APP version 0.1.0." << endl;
+	cout << "SBC_APP version 0.1.1." << endl;
 	cout << "Use one of the following commands to get started:" << endl;
 	cout << "1) Create a squad" << endl;
 	cout << "2) View an existing squad" << endl;
 	cout << "3) Exit application." << endl;
-	keep_window_open();
 	return;
 }
 
@@ -166,22 +261,62 @@ void startup()
 void run()
 {
 	startup();
+
+	while (1) {
+		cout << PROMPT;
+		Token t = ts.get();
+		if (t.kind == QUIT)
+			return;
+
+		ts.unget(t);
+		// handle menu options
+		// depending on choice
+		// start with build a new menu
+		// prompt squad name followed by a list of players and prices
+	}
 }
 
-// function to test ideas
+// should be turned into a kind check function eventually
 void test()
 {
-	//test
 	cout << "Enter a String." << endl;
 	Token t = ts.get();
 
-	if(t.kind)
+	if (t.kind == PLAYER) 
+		cout << "You entered a player name: " << t.name << endl;
+
+	if (t.kind == VALUE)
+		cout << "You entered a player value: " << t.value << endl;
+
+	keep_window_open();
+	return;
+}
+
+bool test2()
+{
+	cout << "Enter a test string." << endl;
+	string s;
+	cin >> s;
+	return string_test(s);
+}
+// function that handles menu functionality
+void command_list()
+{
+	Token t = ts.get();
+	if (t.kind == CREATE) {
+		create_squad();
+	}
+
+	if (t.kind == VIEW) {
+		view_squad();
+	}
+
 }
 
 // main
 int main()
 {
-	test();
+	test2();
 	keep_window_open();
 	return 0;
 }
