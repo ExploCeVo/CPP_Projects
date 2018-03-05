@@ -1,8 +1,13 @@
 ﻿  SBC_APP.cpp
-c:\users\cole chapin\desktop\repository\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(77): warning C4018: '<': signed/unsigned mismatch
-c:\users\cole chapin\desktop\repository\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(94): warning C4018: '<': signed/unsigned mismatch
-c:\users\cole chapin\desktop\repository\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(114): warning C4018: '<': signed/unsigned mismatch
-c:\users\cole chapin\desktop\repository\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(120): warning C4715: 'mySBC::Squad_List::has_player': not all control paths return a value
-c:\users\cole chapin\desktop\repository\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(144): warning C4715: 'mySBC::Token_stream::get': not all control paths return a value
-  SBC_APP.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\SBC_APP\Debug\SBC_APP.exe
-  SBC_APP.vcxproj -> C:\Users\Cole Chapin\Desktop\Repository\CPP_Projects\SBC_APP\Debug\SBC_APP.pdb (Full PDB)
+c:\users\cole chapin\desktop\repo\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(94): warning C4018: '<': signed/unsigned mismatch
+c:\users\cole chapin\desktop\repo\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(111): warning C4018: '<': signed/unsigned mismatch
+c:\users\cole chapin\desktop\repo\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(131): warning C4018: '<': signed/unsigned mismatch
+c:\users\cole chapin\desktop\repo\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(200): warning C4018: '<': signed/unsigned mismatch
+c:\users\cole chapin\desktop\repo\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(217): warning C4018: '<': signed/unsigned mismatch
+c:\users\cole chapin\desktop\repo\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(221): warning C4018: '<': signed/unsigned mismatch
+c:\users\cole chapin\desktop\repo\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(226): warning C4018: '<': signed/unsigned mismatch
+c:\users\cole chapin\desktop\repo\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(237): warning C4101: 'allowed': unreferenced local variable
+c:\users\cole chapin\desktop\repo\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(137): warning C4715: 'mySBC::Squad_List::has_player': not all control paths return a value
+c:\users\cole chapin\desktop\repo\cpp_projects\sbc_app\sbc_app\sbc_app.cpp(166): warning C4715: 'mySBC::Token_stream::get': not all control paths return a value
+  SBC_APP.vcxproj -> C:\Users\Cole Chapin\Desktop\Repo\CPP_Projects\SBC_APP\Debug\SBC_APP.exe
+  SBC_APP.vcxproj -> C:\Users\Cole Chapin\Desktop\Repo\CPP_Projects\SBC_APP\Debug\SBC_APP.pdb (Full PDB)
