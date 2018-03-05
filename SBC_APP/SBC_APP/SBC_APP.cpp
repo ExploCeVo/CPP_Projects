@@ -180,8 +180,9 @@ void view_squad()
 {
 	//todo
 }
-bool string_test(const string& s)
+bool string_nop(const string& s)
 {
+	string s2;
 	string capfirst;
 	string uppercase;
 	string lowercase;
@@ -189,28 +190,6 @@ bool string_test(const string& s)
 	string uppercasep;
 	string lowercasep;
 	locale settings;
-
-	// check if the string has a period
-	if (s[s.length() - 1] == '.') {
-		lowercasep = s;
-		capfirstp = s;
-		uppercasep = s;
-
-		for (short i = 0; i < s.length() - 1; ++i) {
-			lowercase += s[i];
-			capfirst += s[i];
-			uppercasep += s[i];
-		}
-	}
-
-	else {
-		lowercase = s;
-		capfirst = s;
-		uppercase = s;
-		lowercasep = s + '.';
-		capfirstp = s + '.';
-		uppercasep = s + '.';
-	}
 
 	// convert capfirst and capfirstp
 	capfirst = toupper(s[0], settings);
@@ -220,6 +199,7 @@ bool string_test(const string& s)
 	capfirstp = toupper(s[0], settings);
 	for (short i = 1; i < s.length(); ++i)
 		capfirstp += s[i];
+	capfirstp += '.';
 
 	// convert uppercase and uppercasep
 	for (short i = 0; i < s.length(); ++i) {
@@ -233,17 +213,44 @@ bool string_test(const string& s)
 	if (isupper(lowercasep[0]))
 		tolower(lowercasep[0], settings);
 
-	bool allowed;
-	cout << "lowercase: " << lowercase << endl;
-	cout << "lowercasep: " << lowercasep << endl;
-	cout << "capfirst: " << capfirst << endl;
-	cout << "capfirstp: " << capfirstp << endl;
-	cout << "uppercase: " << uppercase << endl;
-	cout << "uppercasep: " << uppercasep << endl;
-	if (s == lowercase || s == lowercasep || s == capfirst || s == capfirstp
-		|| s == uppercase || s == uppercasep)
-		return true;
-	return false;
+}
+bool string_hasp(const string& s)
+{
+	string s2;
+	string capfirst;
+	string uppercase;
+	string lowercase;
+	string capfirstp;
+	string uppercasep;
+	string lowercasep;
+	locale settings;
+
+	// check if the string has a period
+	if (s[s.length() - 1] != '.') 
+		error("Invalid String", s);
+
+	// make s2 the string w/o a period
+	for (short i = 0; i < s.length() - 1; ++i)
+		s2 += s[i];
+	
+	// assign values
+
+	// convert capfirst and capfirstp
+	capfirst = toupper(s2[0], settings);
+	for (short i = 1; i < s2.length(); ++i)
+		capfirst += tolower(s2[i], settings);
+
+	capfirstp = toupper(s[0], settings);
+	for (short i = 1; i < s.length(); ++i)
+		capfirstp += tolower(s[i], settings);
+
+	// convert lowercase and lowercasep
+}
+bool string_test(const string& s)
+{
+	if (s[s.length() - 1] == '.')
+		return string_hasp(s);
+	return string_nop(s);
 }
 
 // Initial startup
@@ -297,7 +304,9 @@ bool test2()
 	cout << "Enter a test string." << endl;
 	string s;
 	cin >> s;
-	return string_test(s);
+	bool test = string_test(s);
+	cout << test << endl;
+	return test;
 }
 // function that handles menu functionality
 void command_list()
