@@ -69,15 +69,18 @@ author: Cole Chapin
 using namespace mySBC;
 
 // CONSTANT VARIABLES
-const char QUIT = '0';
-const char PLAYER = '1';
-const char VALUE = '2';
-const char CREATE = '3';
-const char VIEW = '4';
-const char PROMPT = '>';
+const string	QUIT_S =		"quit";
+const string	CREATE_S =		"create";
+const string	VIEW_S =		"view";
+const char		QUIT =			'0';
+const char		PLAYER =		'1';
+const char		VALUE =			'2';
+const char		CREATE =		'3';
+const char		VIEW =			'4';
+const char		PROMPT =		'>';
 
 // LOCAL VARIABLES
-Token_stream ts;
+Token_stream	ts;
 
 // specific constructor
 Squad_List::Squad_List(string sn, double tc, vector<string> pn, vector<double> pr)
@@ -180,77 +183,24 @@ void view_squad()
 {
 	//todo
 }
-bool string_nop(const string& s)
+
+// function that trims string s and compares to a token string c 
+bool string_test(const string& s, const string& c)
 {
 	string s2;
-	string capfirst;
-	string uppercase;
-	string lowercase;
-	string capfirstp;
-	string uppercasep;
-	string lowercasep;
 	locale settings;
 
-	// convert capfirst and capfirstp
-	capfirst = toupper(s[0], settings);
-	for (short i = 1; i < s.length(); ++i)
-		capfirst += s[i];
-
-	capfirstp = toupper(s[0], settings);
-	for (short i = 1; i < s.length(); ++i)
-		capfirstp += s[i];
-	capfirstp += '.';
-
-	// convert uppercase and uppercasep
-	for (short i = 0; i < s.length(); ++i) {
-		uppercase[i] = toupper(s[i], settings);
-		uppercasep[i] = toupper(s[i], settings);
-	}
-
-	// make sure lowercase strings are lowercase
-	if (isupper(lowercase[0]))
-		tolower(lowercase[0], settings);
-	if (isupper(lowercasep[0]))
-		tolower(lowercasep[0], settings);
-
-}
-bool string_hasp(const string& s)
-{
-	string s2;
-	string capfirst;
-	string uppercase;
-	string lowercase;
-	string capfirstp;
-	string uppercasep;
-	string lowercasep;
-	locale settings;
-
-	// check if the string has a period
-	if (s[s.length() - 1] != '.') 
-		error("Invalid String", s);
-
-	// make s2 the string w/o a period
-	for (short i = 0; i < s.length() - 1; ++i)
-		s2 += s[i];
-	
-	// assign values
-
-	// convert capfirst and capfirstp
-	capfirst = toupper(s2[0], settings);
-	for (short i = 1; i < s2.length(); ++i)
-		capfirst += tolower(s2[i], settings);
-
-	capfirstp = toupper(s[0], settings);
-	for (short i = 1; i < s.length(); ++i)
-		capfirstp += tolower(s[i], settings);
-
-	// convert lowercase and lowercasep
-}
-bool string_test(const string& s)
-{
 	if (s[s.length() - 1] == '.')
-		return string_hasp(s);
-	return string_nop(s);
+		for (short i = 0; i < s.length() - 1; ++i)
+			s2 += tolower(s[i], settings);
+	else
+		for (short i = 0; i < s.length(); ++i)
+			s2 += tolower(s[i], settings);
+
+	if (s2 == c)
+		return true;
+
+	return false;
 }
 
 // Initial startup
