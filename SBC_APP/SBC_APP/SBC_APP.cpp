@@ -3,7 +3,8 @@
 SBC_APP.cpp ==============================================================================
 ==========================================================================================
 ==========================================================================================
-Grammer, currently a work in progress:
+Grammer, currently a work in progress: (Isn't very specific at this point, more progress
+needs to be made).
 
 Statement:
 Create List
@@ -50,14 +51,15 @@ test()
 main()
 ==========================================================================================
 TODO:
-Create a basic menu
-Menu Navigation
-Advanced token checking
-Basic error checking
+Simplify commands until there is a single working unit to build off of (1)
+Create a basic menu (1)
+Menu Navigation (2)
+Advanced token checking (4)
+Basic error checking (3)
 ==========================================================================================
 all classes for this application can be found in SBC_APP.h
 ==========================================================================================
-last edit: 3/4/18
+last edit: 3/19/18
 author: Cole Chapin
 ==========================================================================================
 */
@@ -69,13 +71,10 @@ author: Cole Chapin
 using namespace mySBC;
 
 // CONSTANT VARIABLES
-const string	QUIT_S =		"quit";
-const string	CREATE_S =		"create";
-const string	VIEW_S =		"view";
-const char		QUIT =			'0';
-const char		PLAYER =		'1';
-const char		VALUE =			'2';
-const char		CREATE =		'3';
+const char		QUIT =			'q';
+const char		PLAYER_TOK =	'1';
+const char		VALUE_TOK =		'2';
+const char		CREATE	=		'3';
 const char		VIEW =			'4';
 const char		PROMPT =		'>';
 
@@ -158,12 +157,11 @@ Token Token_stream::get()
 
 	if (isalpha(ch)) {
 		cin.unget();
-		string s;
-		cin >> s;
-		if (s == "quit" || s == "Quit" || s == "QUIT") 
+		char c;
+		cin >> c;
+		if (c == QUIT)
 			return Token(QUIT);
-
-		return Token(PLAYER, s);
+		//todo 
 	}
 	else error("Bad Token Nigger.");
 }
@@ -184,25 +182,6 @@ void view_squad()
 	//todo
 }
 
-// function that trims string s and compares to a token string c 
-bool string_test(const string& s, const string& c)
-{
-	string s2;
-	locale settings;
-
-	if (s[s.length() - 1] == '.')
-		for (short i = 0; i < s.length() - 1; ++i)
-			s2 += tolower(s[i], settings);
-	else
-		for (short i = 0; i < s.length(); ++i)
-			s2 += tolower(s[i], settings);
-
-	if (s2 == c)
-		return true;
-
-	return false;
-}
-
 // Initial startup
 void startup()
 {
@@ -214,7 +193,7 @@ void startup()
 	return;
 }
 
-// will eventually run everything
+// will eventually run everything -- needsd work
 void run()
 {
 	startup();
@@ -236,28 +215,12 @@ void run()
 // should be turned into a kind check function eventually
 void test()
 {
-	cout << "Enter a String." << endl;
-	Token t = ts.get();
 
-	if (t.kind == PLAYER) 
-		cout << "You entered a player name: " << t.name << endl;
-
-	if (t.kind == VALUE)
-		cout << "You entered a player value: " << t.value << endl;
-
+	startup();
 	keep_window_open();
 	return;
 }
 
-bool test2()
-{
-	cout << "Enter a test string." << endl;
-	string s;
-	cin >> s;
-	bool test = string_test(s);
-	cout << test << endl;
-	return test;
-}
 // function that handles menu functionality
 void command_list()
 {
@@ -275,7 +238,7 @@ void command_list()
 // main
 int main()
 {
-	test2();
+	test();
 	keep_window_open();
 	return 0;
 }
