@@ -3,7 +3,8 @@
 SBC_APP.cpp ==============================================================================
 ==========================================================================================
 ==========================================================================================
-Grammer, currently a work in progress:
+Grammer, currently a work in progress: (Isn't very specific at this point, more progress
+needs to be made).
 
 Statement:
 Create List
@@ -50,14 +51,15 @@ test()
 main()
 ==========================================================================================
 TODO:
-Create a basic menu
-Menu Navigation
-Advanced token checking
-Basic error checking
+Simplify commands until there is a single working unit to build off of (1)
+Create a basic menu (1)
+Menu Navigation (2)
+Advanced token checking (4)
+Basic error checking (3)
 ==========================================================================================
 all classes for this application can be found in SBC_APP.h
 ==========================================================================================
-last edit: 3/4/18
+last edit: 3/19/18
 author: Cole Chapin
 ==========================================================================================
 */
@@ -69,15 +71,15 @@ author: Cole Chapin
 using namespace mySBC;
 
 // CONSTANT VARIABLES
-const char QUIT = '0';
-const char PLAYER = '1';
-const char VALUE = '2';
-const char CREATE = '3';
-const char VIEW = '4';
-const char PROMPT = '>';
+const char		QUIT =			'q';
+const char		PLAYER_TOK =	'1';
+const char		VALUE_TOK =		'2';
+const char		CREATE	=		'3';
+const char		VIEW =			'4';
+const char		PROMPT =		'>';
 
 // LOCAL VARIABLES
-Token_stream ts;
+Token_stream	ts;
 
 // specific constructor
 Squad_List::Squad_List(string sn, double tc, vector<string> pn, vector<double> pr)
@@ -155,12 +157,11 @@ Token Token_stream::get()
 
 	if (isalpha(ch)) {
 		cin.unget();
-		string s;
-		cin >> s;
-		if (s == "quit" || s == "Quit" || s == "QUIT") 
+		char c;
+		cin >> c;
+		if (c == QUIT)
 			return Token(QUIT);
-
-		return Token(PLAYER, s);
+		//todo 
 	}
 	else error("Bad Token Nigger.");
 }
@@ -180,78 +181,6 @@ void view_squad()
 {
 	//todo
 }
-bool string_nop(const string& s)
-{
-	string s2;
-	string capfirst;
-	string uppercase;
-	string lowercase;
-	string capfirstp;
-	string uppercasep;
-	string lowercasep;
-	locale settings;
-
-	// convert capfirst and capfirstp
-	capfirst = toupper(s[0], settings);
-	for (short i = 1; i < s.length(); ++i)
-		capfirst += s[i];
-
-	capfirstp = toupper(s[0], settings);
-	for (short i = 1; i < s.length(); ++i)
-		capfirstp += s[i];
-	capfirstp += '.';
-
-	// convert uppercase and uppercasep
-	for (short i = 0; i < s.length(); ++i) {
-		uppercase[i] = toupper(s[i], settings);
-		uppercasep[i] = toupper(s[i], settings);
-	}
-
-	// make sure lowercase strings are lowercase
-	if (isupper(lowercase[0]))
-		tolower(lowercase[0], settings);
-	if (isupper(lowercasep[0]))
-		tolower(lowercasep[0], settings);
-
-}
-bool string_hasp(const string& s)
-{
-	string s2;
-	string capfirst;
-	string uppercase;
-	string lowercase;
-	string capfirstp;
-	string uppercasep;
-	string lowercasep;
-	locale settings;
-
-	// check if the string has a period
-	if (s[s.length() - 1] != '.') 
-		error("Invalid String", s);
-
-	// make s2 the string w/o a period
-	for (short i = 0; i < s.length() - 1; ++i)
-		s2 += s[i];
-	
-	// assign values
-
-	// convert capfirst and capfirstp
-	capfirst = toupper(s2[0], settings);
-	for (short i = 1; i < s2.length(); ++i)
-		capfirst += tolower(s2[i], settings);
-
-	capfirstp = toupper(s[0], settings);
-	for (short i = 1; i < s.length(); ++i)
-		capfirstp += tolower(s[i], settings);
-
-	// convert lowercase and lowercasep
-}
-bool string_test(const string& s)
-{
-	if (s[s.length() - 1] == '.')
-		return string_hasp(s);
-	return string_nop(s);
-}
 
 // Initial startup
 void startup()
@@ -264,7 +193,7 @@ void startup()
 	return;
 }
 
-// will eventually run everything
+// will eventually run everything -- needsd work
 void run()
 {
 	startup();
@@ -286,28 +215,12 @@ void run()
 // should be turned into a kind check function eventually
 void test()
 {
-	cout << "Enter a String." << endl;
-	Token t = ts.get();
 
-	if (t.kind == PLAYER) 
-		cout << "You entered a player name: " << t.name << endl;
-
-	if (t.kind == VALUE)
-		cout << "You entered a player value: " << t.value << endl;
-
+	startup();
 	keep_window_open();
 	return;
 }
 
-bool test2()
-{
-	cout << "Enter a test string." << endl;
-	string s;
-	cin >> s;
-	bool test = string_test(s);
-	cout << test << endl;
-	return test;
-}
 // function that handles menu functionality
 void command_list()
 {
@@ -325,7 +238,7 @@ void command_list()
 // main
 int main()
 {
-	test2();
+	test();
 	keep_window_open();
 	return 0;
 }
