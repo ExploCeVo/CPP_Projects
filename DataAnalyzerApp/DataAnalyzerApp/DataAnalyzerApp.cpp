@@ -30,13 +30,13 @@ author: Cole Chapin
 #include "DataAnalyzerApp.h"
 
 namespace DataAnalyer {
-	class AccountType {
+	class Account {
 	public:
 
 		class Invalid {};
 
-		AccountType();
-		AccountType(String username);
+		Account();
+		Account(String username);
 
 		// name of account 
 		String getname() const { return username;}

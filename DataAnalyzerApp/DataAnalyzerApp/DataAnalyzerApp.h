@@ -13,7 +13,8 @@ namespace DataAnalyer {
 		class Invalid {};
 
 		Account();
-		Account(String username);
+		Account(String name);
+		Account()
 
 		// name of account 
 		String getname() const { return username; }
