@@ -29,28 +29,18 @@ author: Cole Chapin
 #include "std_lib_facilities.h"
 #include "DataAnalyzerApp.h"
 
-namespace DataAnalyer {
-	class Account {
-	public:
+using namespace DataAnalyzer;
 
-		class Invalid {};
+String s;
 
-		Account();
-		Account(String username);
+Account::Account()
+	: username{}, acctype{} {}
 
-		// name of account 
-		String getname() const { return username;}
-		// type of account
-		String gettype() const { return acctype; }
-		
-	private:
-		String username;
-		String acctype;
+Account::Account(String username)
+	: username{  s }, acctype{} {}
 
-	};
-}
-int main()
+void main()
 {
-    return 0;
+	return;
 }
 

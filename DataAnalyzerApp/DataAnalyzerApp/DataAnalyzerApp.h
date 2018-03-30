@@ -6,7 +6,7 @@ Header file
 #include "stdafx.h"
 #include "std_lib_facilities.h"
 
-namespace DataAnalyer {
+namespace DataAnalyzer {
 	class Account {
 	public:
 
@@ -14,7 +14,6 @@ namespace DataAnalyer {
 
 		Account();
 		Account(String name);
-		Account()
 
 		// name of account 
 		String getname() const { return username; }
