@@ -1,0 +1,8 @@
+﻿  stdafx.cpp
+  GTA_Database.cpp
+c:\users\cole chapin\desktop\repo\cpp_projects\gta_database\gta_database\gta_database.cpp(19): error C2039: 'get': is not a member of 'GTA::token_stream'
+  c:\users\cole chapin\desktop\repo\cpp_projects\gta_database\gta_database\gta_database.h(16): note: see declaration of 'GTA::token_stream'
+c:\users\cole chapin\desktop\repo\cpp_projects\gta_database\gta_database\gta_database.cpp(19): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+c:\users\cole chapin\desktop\repo\cpp_projects\gta_database\gta_database\gta_database.cpp(19): error C2146: syntax error: missing ';' before identifier 'get'
+c:\users\cole chapin\desktop\repo\cpp_projects\gta_database\gta_database\gta_database.cpp(20): error C2143: syntax error: missing ';' before '{'
+c:\users\cole chapin\desktop\repo\cpp_projects\gta_database\gta_database\gta_database.cpp(20): error C2447: '{': missing function header (old-style formal list?)
